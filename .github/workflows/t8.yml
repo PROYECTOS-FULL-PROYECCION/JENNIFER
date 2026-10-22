@@ -1,9 +1,0 @@
-﻿name: t8 expr-en-run
-on:
-  push:
-    branches: [main]
-jobs:
-  t:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "valor: ${{ secrets.R2_BUCKET != '' }} y ${{ inputs.purgar_bucket != false }}"

@@ -5,48 +5,424 @@
   "nota": "Las rutas relativas apuntan a archivos del repo (assets/fotos/...). También puedes usar URLs absolutas (https://...) de un CDN o bucket S3-compatible. 'thumb' es opcional: si falta, se usa 'url'.",
   "fotos": [
     {
-      "id": "costa-2026",
-      "thumb": "assets/fotos/demo-costa.svg",
-      "url": "assets/fotos/demo-costa.svg",
-      "titulo": "Atardecer en la costa",
-      "descripcion": "La última luz sobre el mar, con las nubes encendidas.",
-      "etiquetas": ["paisaje", "mar", "atardecer"],
-      "album": "Viajes",
-      "fecha": "2026-10-12",
-      "bytes": 0
+      "id": "img-20261017-wa0211",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0211-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0211-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0211.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 74942
     },
     {
-      "id": "montana-2026",
-      "thumb": "assets/fotos/demo-montana.svg",
-      "url": "assets/fotos/demo-montana.svg",
-      "titulo": "Montañas al amanecer",
-      "descripcion": "La nieve mas temprana en las cumbres.",
-      "etiquetas": ["paisaje", "montana"],
-      "album": "Viajes",
-      "fecha": "2026-09-28",
-      "bytes": 0
+      "id": "img-20261017-wa0212",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0212-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0212-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0212.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 188514
     },
     {
-      "id": "bosque-2026",
-      "thumb": "assets/fotos/demo-bosque.svg",
-      "url": "assets/fotos/demo-bosque.svg",
-      "titulo": "Bosque de niebla",
-      "descripcion": "Los abetos emergen de la bruma.",
-      "etiquetas": ["naturaleza", "bosque"],
-      "album": "Naturaleza",
-      "fecha": "2026-09-15",
-      "bytes": 0
+      "id": "img-20261017-wa0219",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0219-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0219-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0219.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 202288
     },
     {
-      "id": "ciudad-2026",
-      "thumb": "assets/fotos/demo-ciudad.svg",
-      "url": "assets/fotos/demo-ciudad.svg",
-      "titulo": "Ciudad de noche",
-      "descripcion": "Luces encendidas una noche entre semana.",
-      "etiquetas": ["ciudad", "noche"],
-      "album": "Calle",
-      "fecha": "2026-10-05",
-      "bytes": 0
+      "id": "img-20261017-wa0220",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0220-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0220-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0220.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 172922
+    },
+    {
+      "id": "img-20261017-wa0222",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0222-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0222-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0222.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 257988
+    },
+    {
+      "id": "img-20261017-wa0224",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0224-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0224-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0224.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 245862
+    },
+    {
+      "id": "img-20261017-wa0231",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0231-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0231-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0231.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 257958
+    },
+    {
+      "id": "img-20261017-wa0234",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0234-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0234-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0234.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 228818
+    },
+    {
+      "id": "img-20261017-wa0237",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0237-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0237-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0237.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 358898
+    },
+    {
+      "id": "img-20261017-wa0238",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0238-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0238-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0238.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 298160
+    },
+    {
+      "id": "img-20261017-wa0239",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0239-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0239-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0239.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 256862
+    },
+    {
+      "id": "vid-20261017-wa0221",
+      "tipo": "video",
+      "thumb": "assets/videos/vid-20261017-wa0221-poster.jpg",
+      "poster": "assets/videos/vid-20261017-wa0221-poster.jpg",
+      "url": "assets/videos/vid-20261017-wa0221.mp4",
+      "duracion": 23.9,
+      "titulo": "17 Oct 2026",
+      "descripcion": "VID-20261017-WA0221.mp4",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 3750570
+    },
+    {
+      "id": "vid-20261017-wa0252",
+      "tipo": "video",
+      "thumb": "assets/videos/vid-20261017-wa0252-poster.jpg",
+      "poster": "assets/videos/vid-20261017-wa0252-poster.jpg",
+      "url": "assets/videos/vid-20261017-wa0252.mp4",
+      "duracion": 47.4,
+      "titulo": "17 Oct 2026",
+      "descripcion": "VID-20261017-WA0252.mp4",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T12:00:00",
+      "bytes": 9295219
+    },
+    {
+      "id": "img-20261017-165017",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-165017-thumb.webp",
+      "url": "assets/fotos/img-20261017-165017-full.webp",
+      "titulo": "17 Oct 2026 · 16:50",
+      "descripcion": "IMG_20261017_165017.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:50:17",
+      "bytes": 377758
+    },
+    {
+      "id": "img-20261017-165049",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-165049-thumb.webp",
+      "url": "assets/fotos/img-20261017-165049-full.webp",
+      "titulo": "17 Oct 2026 · 16:50",
+      "descripcion": "IMG_20261017_165049.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:50:49",
+      "bytes": 395504
+    },
+    {
+      "id": "img-20261017-165102",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-165102-thumb.webp",
+      "url": "assets/fotos/img-20261017-165102-full.webp",
+      "titulo": "17 Oct 2026 · 16:51",
+      "descripcion": "IMG_20261017_165102.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:51:02",
+      "bytes": 370126
+    },
+    {
+      "id": "img-20261017-165120",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-165120-thumb.webp",
+      "url": "assets/fotos/img-20261017-165120-full.webp",
+      "titulo": "17 Oct 2026 · 16:51",
+      "descripcion": "IMG_20261017_165120.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:51:20",
+      "bytes": 225880
+    },
+    {
+      "id": "img-20261017-165131",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-165131-thumb.webp",
+      "url": "assets/fotos/img-20261017-165131-full.webp",
+      "titulo": "17 Oct 2026 · 16:51",
+      "descripcion": "IMG_20261017_165131.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:51:31",
+      "bytes": 247872
+    },
+    {
+      "id": "img-20261017-165501",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-165501-thumb.webp",
+      "url": "assets/fotos/img-20261017-165501-full.webp",
+      "titulo": "17 Oct 2026 · 16:55",
+      "descripcion": "IMG_20261017_165501.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:55:01",
+      "bytes": 252898
+    },
+    {
+      "id": "img-20261017-165541",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-165541-thumb.webp",
+      "url": "assets/fotos/img-20261017-165541-full.webp",
+      "titulo": "17 Oct 2026 · 16:55",
+      "descripcion": "IMG_20261017_165541.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:55:41",
+      "bytes": 250380
+    },
+    {
+      "id": "img-20261017-wa0175",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-wa0175-thumb.webp",
+      "url": "assets/fotos/img-20261017-wa0175-full.webp",
+      "titulo": "17 Oct 2026",
+      "descripcion": "IMG-20261017-WA0175.jpeg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T16:57:22",
+      "bytes": 186088
+    },
+    {
+      "id": "img-20261017-171239",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-171239-thumb.webp",
+      "url": "assets/fotos/img-20261017-171239-full.webp",
+      "titulo": "17 Oct 2026 · 17:12",
+      "descripcion": "IMG_20261017_171239.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T17:12:39",
+      "bytes": 269312
+    },
+    {
+      "id": "img-20261017-171242",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-171242-thumb.webp",
+      "url": "assets/fotos/img-20261017-171242-full.webp",
+      "titulo": "17 Oct 2026 · 17:12",
+      "descripcion": "IMG_20261017_171242.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T17:12:42",
+      "bytes": 286240
+    },
+    {
+      "id": "img-20261017-171334",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-171334-thumb.webp",
+      "url": "assets/fotos/img-20261017-171334-full.webp",
+      "titulo": "17 Oct 2026 · 17:13",
+      "descripcion": "IMG_20261017_171334.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T17:13:34",
+      "bytes": 326948
+    },
+    {
+      "id": "img-20261017-171346",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-171346-thumb.webp",
+      "url": "assets/fotos/img-20261017-171346-full.webp",
+      "titulo": "17 Oct 2026 · 17:13",
+      "descripcion": "IMG_20261017_171346.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T17:13:46",
+      "bytes": 260574
+    },
+    {
+      "id": "img-20261017-171449",
+      "tipo": "foto",
+      "thumb": "assets/fotos/img-20261017-171449-thumb.webp",
+      "url": "assets/fotos/img-20261017-171449-full.webp",
+      "titulo": "17 Oct 2026 · 17:14",
+      "descripcion": "IMG_20261017_171449.jpg",
+      "etiquetas": [
+        "viaje",
+        "2026",
+        "amigos"
+      ],
+      "album": "Viaje",
+      "fecha": "2026-10-17T17:14:49",
+      "bytes": 357796
     }
   ]
 }

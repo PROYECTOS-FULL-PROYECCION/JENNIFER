@@ -1,16 +1,17 @@
-name: Cierre mensual de la galería
+name: Cierre de la galería
 
 # Se ejecuta el 21 de febrero a las 05:00 UTC (la fecha de cierre del álbum).
-# Publica la página de aviso y, si hay credenciales de R2, vacía el bucket:
-# así las fotos dejan de existir, no solo de mostrarse.
+# 1. Publica la página de aviso (la galería deja de verse).
+# 2. Pasa el repositorio a privado (las fotos dejan de ser públicas en GitHub).
+# 3. Intenta borrar el sitio de Pages (en el plan Free ya cae con el paso 2).
 
 on:
   schedule:
     - cron: '0 5 21 2 *'
   workflow_dispatch:
     inputs:
-      purgar_bucket:
-        description: "Vaciar también el bucket de fotos (R2)"
+      hacer_privado:
+        description: "Pasar el repositorio a privado"
         type: boolean
         default: true
 
@@ -18,6 +19,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  administration: write
 
 jobs:
   cerrar:
@@ -40,15 +42,16 @@ jobs:
       - id: despliegue
         uses: actions/deploy-pages@v4
 
-      - name: Vaciar el bucket de fotos
-        if: ${{ inputs.purgar_bucket != false && secrets.R2_BUCKET != '' }}
+      - name: Volver el repositorio privado
+        if: ${{ inputs.hacer_privado }}
         run: |
-          python3 -m pip install --quiet boto3
-          python tools/purgar-bucket.py \
-            --bucket "${{ secrets.R2_BUCKET }}" \
-            --endpoint "${{ secrets.R2_ENDPOINT }}" \
-            --confirmar
+          gh api --method PATCH "repos/${{ github.repository }}" -f private=true || \
+            echo "No se pudo cambiar la visibilidad (hace falta permiso de administracion)."
+
+      - name: Borrar el sitio de Pages
+        continue-on-error: true
+        run: |
+          gh api --method DELETE "repos/${{ github.repository }}/pages" || \
+            echo "El sitio de Pages se queda publicado (visible solo en repos privados con GitHub Pro)."
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_KEY }}
-          AWS_DEFAULT_REGION: auto
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

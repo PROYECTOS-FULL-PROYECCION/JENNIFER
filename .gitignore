@@ -13,3 +13,7 @@ desktop.ini
 # artefactos de pruebas locales
 tmp-test/
 data/tmp-test.json
+
+# originales del album (no se suben: solo las versiones optimizadas)
+fotos y videos/
+

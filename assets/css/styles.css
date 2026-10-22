@@ -175,6 +175,7 @@ body.galeria-cerrada .empty{display:none}
 .galeria.grid .card{margin:0;aspect-ratio:4/3}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--line-strong)}
 .card img{width:100%;height:auto;background:var(--bg-soft)}
+.thumb-vacio{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--surface-2),var(--bg-soft))}
 .galeria.grid .card img{height:100%;object-fit:cover}
 .card-body{
   position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
@@ -192,6 +193,17 @@ body.galeria-cerrada .empty{display:none}
 .fav-flag{position:absolute;top:10px;right:10px;font-size:16px;color:#ff7aa2;text-shadow:0 1px 6px rgba(0,0,0,.5)}
 .fav-flag[hidden]{display:none}
 .card-local{position:absolute;bottom:10px;right:10px}
+.play-badge{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(6,8,12,.62);border:1px solid rgba(255,255,255,.28);
+  color:#fff;font-size:18px;padding-left:4px;backdrop-filter:blur(6px);
+}
+.dur{
+  position:absolute;right:10px;bottom:10px;font-family:var(--mono);font-size:11px;
+  background:rgba(6,8,12,.66);color:#fff;padding:2px 7px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+}
 
 .empty{padding:70px 20px;text-align:center;border:1px dashed var(--line-strong);border-radius:var(--radius);margin-top:22px}
 .empty h3{margin:0 0 6px;font-size:18px}
@@ -211,6 +223,9 @@ body.galeria-cerrada .empty{display:none}
 .lb-figure img{
   width:100%;height:100%;max-height:92vh;object-fit:contain;background:#05070a;
 }
+.lb-media{position:relative;display:flex;align-items:center;justify-content:center;min-height:0;background:#05070a}
+.lb-media video{width:100%;max-height:92vh;background:#05070a}
+.lb-media video[hidden]{display:none}
 .lb-cap{padding:18px;overflow:auto;max-height:92vh;border-left:1px solid var(--line)}
 .lb-titulo h3{margin:0 0 4px;font-size:18px}
 .lb-titulo p{margin:0;font-size:12px;font-family:var(--mono)}

@@ -29,6 +29,11 @@
     if (isNaN(d)) return f;
     return d.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
   }
+  function fmtDur(seg) {
+    if (!seg) return '';
+    var m = Math.floor(seg / 60), s = Math.round(seg % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
   function toast(msg, tipo) {
     var t = document.createElement('div');
     t.className = 'toast' + (tipo ? ' ' + tipo : '');
@@ -61,6 +66,9 @@
       id: f.id || 'm' + i,
       src: f.url || f.archivo || f.src || '',
       thumb: f.thumb || '',
+      tipo: f.tipo === 'video' ? 'video' : 'foto',
+      poster: f.poster || '',
+      duracion: f.duracion || 0,
       titulo: f.titulo || f.title || 'Sin título',
       descripcion: f.descripcion || f.description || '',
       etiquetas: etiquetas.filter(Boolean),
@@ -174,10 +182,16 @@
     var lista = filtrar();
     var cont = $('#galeria');
     cont.innerHTML = lista.map(function (f) {
-      var img = f.thumb || f.src;
+      var esVideo = f.tipo === 'video';
+      var img = esVideo ? (f.poster || f.thumb || '') : (f.thumb || f.src);
       var tags = f.etiquetas.length ? f.etiquetas.length + (f.etiquetas.length === 1 ? ' etiqueta' : ' etiquetas') : '';
-      return '<figure class="card" data-id="' + esc(f.id) + '" tabindex="0" role="button" aria-label="Ver ' + esc(f.titulo) + '">' +
-        '<img loading="lazy" decoding="async" src="' + esc(img) + '" alt="' + esc(f.titulo) + '">' +
+      var medio = img
+        ? '<img loading="lazy" decoding="async" src="' + esc(img) + '" alt="' + esc(f.titulo) + '">'
+        : '<div class="thumb-vacio"></div>';
+      return '<figure class="card' + (esVideo ? ' card-video' : '') + '" data-id="' + esc(f.id) + '" tabindex="0" role="button" aria-label="Ver ' + esc(f.titulo) + '">' +
+        medio +
+        (esVideo ? '<span class="play-badge" aria-hidden="true">▶</span>' : '') +
+        (esVideo && f.duracion ? '<span class="dur">' + esc(fmtDur(f.duracion)) + '</span>' : '') +
         '<div class="card-top"><span class="badge">' + esc(f.album) + '</span></div>' +
         (f.favoritos ? '<span class="fav-flag" title="Favorita">♥</span>' : '') +
         (f.local ? '<span class="badge card-local">local</span>' : '') +
@@ -236,6 +250,8 @@
   function cerrarLightbox() {
     state.lb.abierto = false;
     $('#lb').hidden = true;
+    var vid = $('#lbVideo');
+    if (vid) { vid.pause(); }
     document.body.style.overflow = '';
     if (location.hash.indexOf('#foto=') === 0) history.replaceState(null, '', location.pathname + location.search);
   }
@@ -243,12 +259,20 @@
   function renderLightbox() {
     var lista = state.lb.lista, f = lista[state.lb.indice];
     if (!f) return;
-    $('#lbImg').src = f.src;
-    $('#lbImg').alt = f.titulo;
+    var esVideo = f.tipo === 'video';
+    var img = $('#lbImg'), vid = $('#lbVideo');
+    if (esVideo) {
+      img.hidden = true; img.removeAttribute('src');
+      vid.hidden = false; vid.src = f.src; vid.poster = f.poster || '';
+    } else {
+      vid.hidden = true; vid.pause(); vid.removeAttribute('src');
+      img.hidden = false; img.src = f.src; img.alt = f.titulo;
+    }
     $('#lbTitle').textContent = f.titulo;
     $('#lbMeta').textContent = [
       f.album,
       fmtFecha(f.fecha),
+      esVideo ? fmtDur(f.duracion) : null,
       f.bytes ? fmtBytes(f.bytes) : null,
       f.local ? 'subida local' : 'publicada'
     ].filter(Boolean).join(' · ');
