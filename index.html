@@ -1,40 +1,92 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JENNIPER · Galería compartida</title>
-<meta name="description" content="Galería de fotos para compartir: sube, organiza por álbumes y etiquetas, comenta y descarga.">
+<title>El cuento de la profe Jennifer · Galería infantil</title>
+<meta name="description" content="Álbum ilustrado de actividades, dibujos y juegos al aire libre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
-<a class="skip" href="#galeria">Saltar al contenido</a>
+<a class="skip" href="#galeria">Saltar al cuento</a>
 
+<!-- ==================== ESCENA ILUSTRADA DE FONDO ==================== -->
+<div class="escena-fondo" aria-hidden="true">
+  <!-- Sol sonriente (modo día) -->
+  <svg class="astro-sol" viewBox="0 0 160 160">
+    <g class="rayos" stroke="#FFD147" stroke-width="6" stroke-linecap="round">
+      <line x1="80" y1="8" x2="80" y2="24"/><line x1="80" y1="136" x2="80" y2="152"/>
+      <line x1="8" y1="80" x2="24" y2="80"/><line x1="136" y1="80" x2="152" y2="80"/>
+      <line x1="29" y1="29" x2="40" y2="40"/><line x1="120" y1="120" x2="131" y2="131"/>
+      <line x1="131" y1="29" x2="120" y2="40"/><line x1="40" y1="120" x2="29" y2="131"/>
+    </g>
+    <circle cx="80" cy="80" r="44" fill="#FFD95A" stroke="#F6B93B" stroke-width="4"/>
+    <circle cx="64" cy="74" r="4" fill="#5C3D1E"/><circle cx="96" cy="74" r="4" fill="#5C3D1E"/>
+    <circle cx="56" cy="84" r="6" fill="#FF9A76" opacity=".6"/><circle cx="104" cy="84" r="6" fill="#FF9A76" opacity=".6"/>
+    <path d="M66 88 Q80 100 94 88" fill="none" stroke="#5C3D1E" stroke-width="3.5" stroke-linecap="round"/>
+  </svg>
+
+  <!-- Luna dormida y estrellas (modo noche "Antes de dormir") -->
+  <svg class="astro-luna" viewBox="0 0 160 160">
+    <circle cx="80" cy="80" r="46" fill="#FFF3B0" stroke="#F0D778" stroke-width="4"/>
+    <circle cx="64" cy="60" r="7" fill="#F3DC82" opacity=".6"/>
+    <circle cx="102" cy="96" r="10" fill="#F3DC82" opacity=".5"/>
+    <path d="M58 76 Q66 82 74 76" fill="none" stroke="#6E5528" stroke-width="3" stroke-linecap="round"/>
+    <path d="M86 76 Q94 82 102 76" fill="none" stroke="#6E5528" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="54" cy="86" r="6" fill="#F7A8A8" opacity=".55"/><circle cx="106" cy="86" r="6" fill="#F7A8A8" opacity=".55"/>
+    <path d="M70 92 Q80 100 90 92" fill="none" stroke="#6E5528" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+
+  <!-- Nubes esponjosas -->
+  <div class="nube n1"></div>
+  <div class="nube n2"></div>
+  <div class="nube n3"></div>
+  <div class="nube n4"></div>
+
+  <!-- Estrellas nocturnas -->
+  <span class="lucero l1">★</span>
+  <span class="lucero l2">★</span>
+  <span class="lucero l3">✦</span>
+  <span class="lucero l4">★</span>
+  <span class="lucero l5">✦</span>
+  <span class="lucero l6">★</span>
+
+  <!-- Colinas verdes al pie -->
+  <svg class="pradera" viewBox="0 0 1440 170" preserveAspectRatio="none">
+    <path class="colina-atras" d="M0 110 Q260 20 560 95 T1140 80 T1440 95 L1440 170 L0 170 Z"/>
+    <path class="colina-frente" d="M0 125 Q360 55 720 115 T1440 105 L1440 170 L0 170 Z"/>
+  </svg>
+</div>
+
+<!-- ==================== BARRA SUPERIOR TIPO CUENTO ==================== -->
 <header class="top">
   <div class="wrap top-inner">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
-          <rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M3.5 17l4.5-4.5 4 4 3-2.5L21 19"/>
-        </svg>
-      </span>
+      <span class="brand-abc" aria-hidden="true">Aa</span>
       <div>
-        <h1>JENNIPER</h1>
-        <p class="brand-sub">Galería compartida</p>
+        <h1 id="tituloWeb">Profe Jennifer</h1>
+        <p class="brand-sub" id="subtituloWeb">Un día de juegos y colores 🌈</p>
       </div>
     </div>
 
     <div class="top-actions">
-      <span class="chip chip-quiet" id="statFotos">0 fotos</span>
-      <span class="chip chip-quiet" id="statPeso">0 MB</span>
-      <button class="btn primary" id="btnSubir">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0L7 9m5-5l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
-        Subir fotos
+      <span class="chip chip-quiet" id="statFotos">0 páginas</span>
+      <button class="btn btn-musica" id="btnMusica" title="Caja de música" aria-label="Activar o silenciar la caja de música">
+        <span id="iconoMusica">🔇</span> <span class="btn-txt" id="textoMusica">Música</span>
       </button>
-      <button class="btn icon" id="btnTema" title="Cambiar tema" aria-label="Cambiar tema">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
+      <button class="btn btn-noche" id="btnTema" title="Modo Antes de dormir" aria-label="Cambiar entre día y modo Antes de dormir">
+        <span id="iconoTema">🌙</span> <span class="btn-txt" id="textoTema">Antes de dormir</span>
+      </button>
+      <button class="btn primary" id="btnPresentar">
+        📖 Modo Cuento
+      </button>
+      <button class="btn" id="btnSubir" title="Añadir fotos de prueba en este navegador">
+        ➕ Añadir foto
       </button>
     </div>
   </div>
@@ -42,38 +94,104 @@
 
 <main class="wrap">
 
+  <!-- ==================== PORTADA ABIERTA DEL LIBRO ==================== -->
+  <section class="portada-libro" aria-label="Bienvenida al cuento">
+    <div class="portada-izq">
+      <span class="etiqueta-cuento">📚 Cuaderno de nuestra clase</span>
+      <h2 class="portada-titulo">¡Qué día tan bonito para aprender jugando!</h2>
+      <p class="portada-relato">
+        Salimos al parque con nuestros lápices, hojas y juegos. Dibujamos en el suelo,
+        compartimos risas con nuestros amigos y descubrimos colores y formas nuevas.
+        ¡Pasa las páginas para ver cada momento!
+      </p>
+      <div class="portada-figuras" aria-hidden="true">
+        <span class="fig fig-circulo" title="Círculo rojo">●<small>círculo</small></span>
+        <span class="fig fig-estrella" title="Estrella amarilla">★<small>estrella</small></span>
+        <span class="fig fig-triangulo" title="Triángulo azul">▲<small>triángulo</small></span>
+        <span class="fig fig-cuadrado" title="Cuadrado verde">■<small>cuadrado</small></span>
+      </div>
+    </div>
+
+    <div class="portada-der" aria-hidden="true">
+      <!-- Abejita con estela punteada + tres flores (como la lámina "Aa de abeja") -->
+      <svg class="ilustracion-abeja" viewBox="0 0 320 230">
+        <!-- Estela punteada -->
+        <path d="M40 125 Q95 60 150 115 T255 85" fill="none" stroke="#5B86B0" stroke-width="3" stroke-dasharray="6 7" stroke-linecap="round"/>
+        <!-- Alas -->
+        <g class="abeja-grupo">
+          <ellipse cx="235" cy="52" rx="18" ry="26" transform="rotate(-22 235 52)" fill="#BFE6FF" opacity=".88"/>
+          <ellipse cx="255" cy="54" rx="16" ry="24" transform="rotate(18 255 54)" fill="#DDF2FF" opacity=".9"/>
+          <!-- Cuerpo -->
+          <ellipse cx="242" cy="82" rx="34" ry="25" fill="#FFD230" stroke="#231F20" stroke-width="3"/>
+          <path d="M232 58 Q232 82 232 106 M250 58 Q250 82 250 106 M266 64 Q266 82 266 100" stroke="#231F20" stroke-width="8" stroke-linecap="round"/>
+          <!-- Carita -->
+          <circle cx="218" cy="78" r="3.6" fill="#231F20"/>
+          <circle cx="230" cy="78" r="3.6" fill="#231F20"/>
+          <circle cx="213" cy="86" r="4.5" fill="#FF8A65" opacity=".7"/>
+          <path d="M220 86 Q224 91 229 86" fill="none" stroke="#231F20" stroke-width="2.6" stroke-linecap="round"/>
+          <!-- Antenas -->
+          <path d="M218 60 Q210 44 202 48" fill="none" stroke="#231F20" stroke-width="3" stroke-linecap="round"/>
+          <path d="M226 58 Q222 42 214 44" fill="none" stroke="#231F20" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="202" cy="48" r="4" fill="#231F20"/><circle cx="214" cy="44" r="4" fill="#231F20"/>
+        </g>
+        <!-- Tres flores de colores abajo -->
+        <g transform="translate(55,175)">
+          <line x1="0" y1="6" x2="0" y2="48" stroke="#4FA64F" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="-11" cy="34" rx="11" ry="6" transform="rotate(-25 -11 34)" fill="#58B957"/>
+          <ellipse cx="11" cy="34" rx="11" ry="6" transform="rotate(25 11 34)" fill="#58B957"/>
+          <g fill="#FF6F91"><circle cx="0" cy="-12" r="10"/><circle cx="12" cy="-3" r="10"/><circle cx="7" cy="10" r="10"/><circle cx="-7" cy="10" r="10"/><circle cx="-12" cy="-3" r="10"/></g>
+          <circle cx="0" cy="0" r="8" fill="#FFD230"/>
+        </g>
+        <g transform="translate(155,175)">
+          <line x1="0" y1="6" x2="0" y2="48" stroke="#4FA64F" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="-11" cy="34" rx="11" ry="6" transform="rotate(-25 -11 34)" fill="#58B957"/>
+          <ellipse cx="11" cy="34" rx="11" ry="6" transform="rotate(25 11 34)" fill="#58B957"/>
+          <g fill="#FFA834"><circle cx="0" cy="-12" r="10"/><circle cx="12" cy="-3" r="10"/><circle cx="7" cy="10" r="10"/><circle cx="-7" cy="10" r="10"/><circle cx="-12" cy="-3" r="10"/></g>
+          <circle cx="0" cy="0" r="8" fill="#FFE066"/>
+        </g>
+        <g transform="translate(255,175)">
+          <line x1="0" y1="6" x2="0" y2="48" stroke="#4FA64F" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="-11" cy="34" rx="11" ry="6" transform="rotate(-25 -11 34)" fill="#58B957"/>
+          <ellipse cx="11" cy="34" rx="11" ry="6" transform="rotate(25 11 34)" fill="#58B957"/>
+          <g fill="#9B7EDE"><circle cx="0" cy="-12" r="10"/><circle cx="12" cy="-3" r="10"/><circle cx="7" cy="10" r="10"/><circle cx="-7" cy="10" r="10"/><circle cx="-12" cy="-3" r="10"/></g>
+          <circle cx="0" cy="0" r="8" fill="#FFD230"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
   <p class="aviso" id="aviso" hidden></p>
 
   <!-- ========== barra de herramientas ========== -->
-  <section class="toolbar" aria-label="Filtros">
+  <section class="toolbar" aria-label="Filtros del cuento">
     <div class="search">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input type="search" id="q" placeholder="Buscar por título, descripción o etiqueta…" aria-label="Buscar fotos">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" id="q" placeholder="Buscar una página del cuento…" aria-label="Buscar">
     </div>
 
     <div class="toolbar-row">
       <label class="field">
-        <span>Álbum</span>
+        <span>Capítulo</span>
         <select id="fAlbum"><option value="">Todos</option></select>
       </label>
       <label class="field">
         <span>Orden</span>
         <select id="fOrden">
-          <option value="nuevas">Más nuevas</option>
-          <option value="antiguas">Más antiguas</option>
-          <option value="titulo">Título A→Z</option>
-          <option value="tamano">Tamaño</option>
+          <option value="antiguas">Del principio al final</option>
+          <option value="nuevas">Del final al principio</option>
+          <option value="titulo">Por título A→Z</option>
+          <option value="tamano">Por tamaño</option>
         </select>
       </label>
       <div class="field">
-        <span>Vista</span>
+        <span>Cómo ver</span>
         <div class="seg" role="group" aria-label="Cambiar vista">
-          <button class="seg-btn is-on" data-view="masonry" title="Muro">Muro</button>
-          <button class="seg-btn" data-view="grid" title="Rejilla">Rejilla</button>
+          <button class="seg-btn is-on" data-view="masonry">Páginas sueltas</button>
+          <button class="seg-btn" data-view="grid">Láminas iguales</button>
         </div>
       </div>
       <label class="check">
-        <input type="checkbox" id="fFavs"> <span>Solo favoritas</span>
+        <input type="checkbox" id="fFavs"> <span>⭐ Solo mis favoritas</span>
       </label>
     </div>
 
@@ -83,18 +201,18 @@
   <!-- ========== zona de subida ========== -->
   <section class="uploader" id="uploader" hidden>
     <div class="uploader-head">
-      <h2>Nuevas fotos</h2>
+      <h2>🎨 Pegar nuevas fotos en tu cuaderno</h2>
       <button class="btn ghost" id="btnCancelarSubida">Cancelar</button>
     </div>
     <div class="uploader-meta">
-      <label class="field"><span>Álbum</span><input type="text" id="upAlbum" placeholder="Viajes"></label>
-      <label class="field"><span>Etiquetas</span><input type="text" id="upTags" placeholder="paisaje, mar"></label>
+      <label class="field"><span>Capítulo</span><input type="text" id="upAlbum" placeholder="Actividades"></label>
+      <label class="field"><span>Etiquetas</span><input type="text" id="upTags" placeholder="dibujos, juegos"></label>
       <label class="field"><span>Fecha</span><input type="date" id="upFecha"></label>
     </div>
     <ul class="up-list" id="upList"></ul>
     <div class="uploader-foot">
       <span class="muted" id="upResumen">0 archivos</span>
-      <button class="btn primary" id="btnPublicar">Publicar en la galería</button>
+      <button class="btn primary" id="btnPublicar">Pegar en el álbum</button>
     </div>
   </section>
 
@@ -102,27 +220,21 @@
   <section id="galeria" class="galeria masonry" aria-live="polite"></section>
 
   <div class="empty" id="vacio" hidden>
-    <h3>No hay fotos que mostrar</h3>
-    <p>Sube imágenes o cambia los filtros de búsqueda.</p>
+    <h3>¡Esta página del cuento está en blanco! 🐣</h3>
+    <p>Cambia los filtros de arriba para ver todas las fotos y vídeos.</p>
   </div>
 </main>
 
 <footer class="foot wrap">
-  <span>JENNIPER · Página de fotos</span>
-  <span class="muted">Las fotos se guardan en este navegador (IndexedDB).</span>
+  <span>🐝 El cuento de la profe Jennifer · Educación Infantil</span>
+  <span class="muted">Con cariño para nuestros niños y sus familias 💛</span>
 </footer>
 
 <!-- ========== lightbox ========== -->
-<div class="lb" id="lb" hidden aria-modal="true" role="dialog" aria-label="Visor de foto">
-  <button class="lb-close" id="lbClose" aria-label="Cerrar">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
-  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>
-  </button>
-  <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-  </button>
+<div class="lb" id="lb" hidden aria-modal="true" role="dialog" aria-label="Página del cuento">
+  <button class="lb-close" id="lbClose" aria-label="Cerrar">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Página anterior">◀</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Página siguiente">▶</button>
 
   <figure class="lb-figure">
     <div class="lb-media">
@@ -136,36 +248,74 @@
       </div>
 
       <div class="lb-acciones">
-        <button class="btn ghost" id="lbFav" title="Marcar como favorita">
-          <span id="lbFavIcon">♡</span> <span id="lbFavTxt">Favorita</span>
+        <button class="btn ghost" id="lbFav" title="Guardar como favorita">
+          <span id="lbFavIcon">☆</span> <span id="lbFavTxt">Favorita</span>
         </button>
-        <button class="btn ghost" id="lbCopiar" title="Copiar enlace a esta foto">Copiar enlace</button>
-        <button class="btn ghost" id="lbDescargar" title="Descargar imagen">Descargar</button>
-        <button class="btn danger" id="lbBorrar" title="Eliminar foto">Eliminar</button>
+        <button class="btn ghost" id="lbCopiar" title="Copiar enlace directo">🔗 Copiar enlace</button>
+        <button class="btn ghost" id="lbDescargar" title="Guardar foto o vídeo">⬇️ Guardar</button>
+        <button class="btn danger" id="lbBorrar" title="Quitar">🗑️ Quitar</button>
       </div>
 
       <div class="lb-tags" id="lbTags"></div>
 
       <div class="lb-comments">
-        <h4>Comentarios <span class="muted" id="lbNumComments"></span></h4>
+        <h4>💬 Mensajes de la familia <span class="muted" id="lbNumComments"></span></h4>
         <ul id="lbComments" class="comments"></ul>
         <form class="comment-form" id="lbForm">
-          <input type="text" id="lbAutor" placeholder="Tu nombre" aria-label="Tu nombre" maxlength="40">
-          <input type="text" id="lbTexto" placeholder="Escribe un comentario…" aria-label="Comentario" maxlength="500" required>
-          <button class="btn" type="submit">Enviar</button>
+          <input type="text" id="lbAutor" placeholder="Tu nombre (mamá, papá, profe…)" aria-label="Tu nombre" maxlength="40">
+          <input type="text" id="lbTexto" placeholder="Escribe un mensaje bonito…" aria-label="Mensaje" maxlength="500" required>
+          <button class="btn primary" type="submit">Dejar mensaje 💌</button>
         </form>
       </div>
     </figcaption>
   </figure>
 </div>
 
+<!-- ========== modo presentación ("Modo Cuento") ========== -->
+<div class="present" id="present" hidden aria-modal="true" role="dialog" aria-label="Modo Cuento">
+  <div class="present-libro">
+    <div class="present-escena" id="presentEscena">
+      <img class="present-medio" id="presentImg" alt="" hidden>
+      <video class="present-medio" id="presentVideo" playsinline preload="metadata" hidden></video>
+      <img class="present-medio" id="presentImgPrev" alt="" hidden>
+      <video class="present-medio" id="presentVideoPrev" playsinline hidden></video>
+    </div>
+    <div class="present-pie">
+      <div class="present-caption" id="presentCaption">
+        <h2 id="presentTitulo"></h2>
+        <p id="presentMeta"></p>
+      </div>
+      <span class="present-num" id="presentNum">1</span>
+    </div>
+  </div>
+
+  <div class="present-barra"><span id="presentBarra"></span></div>
+
+  <div class="present-controles" id="presentControles">
+    <button class="btn icon" id="presentPrev" aria-label="Página anterior">◀</button>
+    <button class="btn icon" id="presentPlay" aria-label="Pausar">⏸</button>
+    <button class="btn icon" id="presentNext" aria-label="Página siguiente">▶</button>
+    <label class="present-vel">
+      <span>Pasar página cada</span>
+      <select id="presentVel">
+        <option value="4000">4 s</option>
+        <option value="6000" selected>6 s</option>
+        <option value="9000">9 s</option>
+        <option value="14000">14 s</option>
+      </select>
+    </label>
+    <button class="btn icon" id="presentMusica" aria-label="Música">🔇</button>
+    <button class="btn" id="presentSalir">Cerrar cuento ✕</button>
+  </div>
+</div>
+
 <!-- ========== toast ========== -->
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
 <input type="file" id="fileInput" accept="image/*" multiple hidden>
-<input type="file" id="dropInput" accept="image/*" multiple hidden>
 
 <script src="assets/js/db.js"></script>
+<script src="assets/js/musica.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>

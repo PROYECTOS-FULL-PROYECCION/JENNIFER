@@ -50,7 +50,7 @@
   var state = {
     fotos: [],
     meta: {},
-    filtro: { q: '', album: '', tag: '', soloFavs: false, orden: 'nuevas' },
+    filtro: { q: '', album: '', tag: '', soloFavs: false, orden: 'antiguas' },
     vista: 'masonry',
     lb: { abierto: false, indice: 0 }
   };
@@ -122,9 +122,22 @@
       state.fotos = res[0].fotos.concat(res[1]);
       state.meta = res[0].meta || {};
       aplicarCaducidad();
+      aplicarIdentidad();
       renderTodo();
       abrirPorHash();
     });
+  }
+
+  /* Título y subtítulo vienen del manifiesto: así la web se adapta al álbum. */
+  function aplicarIdentidad() {
+    var m = state.meta || {};
+    if (m.titulo) {
+      document.title = m.titulo + ' · ' + (m.subtitulo || 'Galería');
+      var t = $('#tituloWeb'); if (t) t.textContent = m.titulo;
+    }
+    if (m.subtitulo) {
+      var s = $('#subtituloWeb'); if (s) s.textContent = m.subtitulo;
+    }
   }
 
   /* Cierre programado: la web avisa hasta que se cumple el plazo y, pasada la
@@ -142,7 +155,7 @@
       aviso.textContent = 'Esta galería ya no está disponible: se cerró el ' + fmtFecha(exp) + '.';
       document.body.classList.add('galeria-cerrada');
     } else {
-      aviso.textContent = 'Galería pública de un viaje de amigos, disponible hasta el ' + fmtFecha(exp) + '.';
+      aviso.textContent = 'Nuestra clase de infantil · disponible hasta el ' + fmtFecha(exp) + '.';
     }
   }
 
@@ -178,25 +191,32 @@
     renderStats();
   }
 
+  var STICKERS = ['🐝', '🌸', '⭐', '🦋', '🎨', '🎈', '🌈', '🐣'];
+
   function renderGaleria() {
     var lista = filtrar();
     var cont = $('#galeria');
-    cont.innerHTML = lista.map(function (f) {
+    cont.innerHTML = lista.map(function (f, idx) {
       var esVideo = f.tipo === 'video';
       var img = esVideo ? (f.poster || f.thumb || '') : (f.thumb || f.src);
-      var tags = f.etiquetas.length ? f.etiquetas.length + (f.etiquetas.length === 1 ? ' etiqueta' : ' etiquetas') : '';
+      var sticker = esVideo ? '🎬 Vídeo' : (STICKERS[idx % STICKERS.length] + ' ' + f.album);
       var medio = img
         ? '<img loading="lazy" decoding="async" src="' + esc(img) + '" alt="' + esc(f.titulo) + '">'
         : '<div class="thumb-vacio"></div>';
-      return '<figure class="card' + (esVideo ? ' card-video' : '') + '" data-id="' + esc(f.id) + '" tabindex="0" role="button" aria-label="Ver ' + esc(f.titulo) + '">' +
-        medio +
-        (esVideo ? '<span class="play-badge" aria-hidden="true">▶</span>' : '') +
-        (esVideo && f.duracion ? '<span class="dur">' + esc(fmtDur(f.duracion)) + '</span>' : '') +
-        '<div class="card-top"><span class="badge">' + esc(f.album) + '</span></div>' +
-        (f.favoritos ? '<span class="fav-flag" title="Favorita">♥</span>' : '') +
-        (f.local ? '<span class="badge card-local">local</span>' : '') +
-        '<figcaption class="card-body"><h3>' + esc(f.titulo) + '</h3>' +
-        '<p>' + esc(fmtFecha(f.fecha)) + (tags ? ' · ' + esc(tags) : '') + '</p></figcaption>' +
+      return '<figure class="card' + (esVideo ? ' card-video' : '') + '" data-id="' + esc(f.id) + '" tabindex="0" role="button" aria-label="Página ' + (idx + 1) + ': ' + esc(f.titulo) + '">' +
+        '<div class="card-marco">' +
+          medio +
+          '<span class="card-sticker">' + esc(sticker) + '</span>' +
+          (f.favoritos ? '<span class="fav-flag" title="Favorita">★</span>' : '') +
+          (f.local ? '<span class="card-sticker card-local">📌 Nueva</span>' : '') +
+          (esVideo ? '<span class="play-badge" aria-hidden="true">▶</span>' : '') +
+          (esVideo && f.duracion ? '<span class="dur">' + esc(fmtDur(f.duracion)) + '</span>' : '') +
+        '</div>' +
+        '<figcaption class="card-body">' +
+          '<div><h3>' + esc(f.titulo) + '</h3>' +
+          '<p>' + esc(fmtFecha(f.fecha)) + '</p></div>' +
+          '<span class="pagina-num" title="Página ' + (idx + 1) + '">' + (idx + 1) + '</span>' +
+        '</figcaption>' +
         '</figure>';
     }).join('');
     $('#vacio').hidden = lista.length > 0;
@@ -228,8 +248,10 @@
   function renderStats() {
     var locales = state.fotos.filter(function (f) { return f.local; });
     var peso = locales.reduce(function (s, f) { return s + (f.bytes || 0); }, 0);
-    $('#statFotos').textContent = state.fotos.length + (state.fotos.length === 1 ? ' foto' : ' fotos');
-    $('#statPeso').textContent = peso ? fmtBytes(peso) + ' en este navegador' : 'sin subidas locales';
+    $('#statFotos').textContent = '📖 ' + state.fotos.length + (state.fotos.length === 1 ? ' página' : ' páginas');
+    if ($('#statPeso')) {
+      $('#statPeso').textContent = peso ? fmtBytes(peso) + ' en este navegador' : 'sin subidas locales';
+    }
   }
 
   /* ---------------- lightbox ---------------- */
@@ -436,15 +458,248 @@
     };
   }
 
+  /* =========================================================
+     Música de fondo (ver assets/js/musica.js)
+     ========================================================= */
+  function sincronizarMusica() {
+    var sonando = !!(window.Musica && Musica.sonando);
+    var ic = $('#iconoMusica'); if (ic) ic.textContent = sonando ? '🎵' : '🔇';
+    var tx = $('#textoMusica'); if (tx) tx.textContent = sonando ? 'Sonando' : 'Música';
+    var bm = $('#btnMusica'); if (bm) bm.classList.toggle('is-on', sonando);
+    var ip = $('#presentMusica'); if (ip) ip.textContent = sonando ? '🎵' : '🔇';
+    localStorage.setItem('jenniper.musica', sonando ? '1' : '0');
+  }
+  function alternarMusica() {
+    if (!window.Musica) { toast('Este navegador no permite música de fondo.', 'err'); return; }
+    Musica.alternar();
+    sincronizarMusica();
+    toast(Musica.sonando ? 'Música activada 🎵' : 'Música silenciada 🔇');
+  }
+
+  /* =========================================================
+     Modo presentación: una foto por pantalla, transiciones
+     suaves (crossfade + zoom tipo Ken Burns) y autoavance.
+     ========================================================= */
+  var pres = {
+    activa: false, lista: [], indice: 0, timer: null,
+    pausada: false, intervalo: 8000, oculto: false
+  };
+
+  function animar(el, clase) {
+    el.classList.remove(clase);
+    void el.offsetWidth;              // reinicia la animación CSS
+    el.classList.add(clase);
+  }
+
+  function presMostrar(primera) {
+    var f = pres.lista[pres.indice];
+    if (!f) return;
+    var esVideo = f.tipo === 'video';
+    var img = $('#presentImg'), vid = $('#presentVideo');
+    var prevImg = $('#presentImgPrev'), prevVid = $('#presentVideoPrev');
+
+    // lo que estaba pasa a la capa de salida
+    if (!primera) {
+      if (!img.hidden) {
+        prevImg.src = img.src;
+        prevImg.hidden = false;
+        animar(prevImg, 'capa-salida');
+      } else if (!vid.hidden) {
+        prevVid.src = vid.currentSrc || vid.src;
+        prevVid.poster = vid.poster || '';
+        prevVid.muted = true;
+        prevVid.hidden = false;
+        animar(prevVid, 'capa-salida');
+      }
+      setTimeout(function () {
+        prevImg.hidden = true;
+        prevVid.hidden = true;
+        try { prevVid.pause(); } catch (e) {}
+      }, 1100);
+    }
+
+    if (esVideo) {
+      img.hidden = true;
+      img.removeAttribute('src');
+      vid.hidden = false;
+      vid.src = f.src;
+      vid.poster = f.poster || '';
+      vid.muted = false;
+      animar(vid, 'capa-entrada');
+      var p = vid.play();
+      if (p && p.catch) {
+        p.catch(function () {            // el navegador bloquea sonido: seguimos en mudo
+          vid.muted = true;
+          var p2 = vid.play();
+          if (p2 && p2.catch) p2.catch(function () {});
+        });
+      }
+    } else {
+      vid.hidden = true;
+      try { vid.pause(); } catch (e) {}
+      vid.removeAttribute('src');
+      img.hidden = false;
+      img.src = f.src;
+      img.alt = f.titulo;
+      animar(img, 'capa-entrada');
+    }
+
+    $('#presentTitulo').textContent = f.titulo;
+    $('#presentMeta').textContent = [
+      f.album,
+      fmtFecha(f.fecha),
+      esVideo ? fmtDur(f.duracion) : null
+    ].filter(Boolean).join(' · ');
+    var num = $('#presentNum');
+    if (num) num.textContent = (pres.indice + 1) + ' / ' + pres.lista.length;
+  }
+
+  function presBarra(ms) {
+    var barra = $('#presentBarra');
+    barra.style.transition = 'none';
+    barra.style.width = '0%';
+    void barra.offsetWidth;
+    if (pres.pausada) return;
+    barra.style.transition = 'width ' + ms + 'ms linear';
+    barra.style.width = '100%';
+  }
+
+  function presArrancar() {
+    clearTimeout(pres.timer);
+    if (pres.pausada || !pres.activa) return;
+    var f = pres.lista[pres.indice];
+    var espera = pres.intervalo;
+    if (f && f.tipo === 'video') {
+      espera = Math.min(60000, Math.max(5000, ((f.duracion || 10) + 2) * 1000));
+    }
+    presBarra(espera);
+    pres.timer = setTimeout(presSiguiente, espera);
+  }
+
+  function presSiguiente() {
+    if (!pres.activa) return;
+    pres.indice = (pres.indice + 1) % pres.lista.length;
+    presMostrar(false);
+    presArrancar();
+  }
+  function presAnterior() {
+    if (!pres.activa) return;
+    pres.indice = (pres.indice - 1 + pres.lista.length) % pres.lista.length;
+    presMostrar(false);
+    presArrancar();
+  }
+  function presPausa() {
+    pres.pausada = !pres.pausada;
+    $('#presentPlay').textContent = pres.pausada ? '▶' : '⏸';
+    $('#presentPlay').setAttribute('aria-label', pres.pausada ? 'Reanudar' : 'Pausar');
+    var vid = $('#presentVideo');
+    if (!vid.hidden) {
+      if (pres.pausada) { try { vid.pause(); } catch (e) {} }
+      else { var p = vid.play(); if (p && p.catch) p.catch(function () {}); }
+    }
+    if (pres.pausada) {
+      clearTimeout(pres.timer);
+      var barra = $('#presentBarra');
+      var w = barra.getBoundingClientRect().width;
+      var total = $('#presentBarra').parentElement.getBoundingClientRect().width;
+      barra.style.transition = 'none';
+      barra.style.width = (total ? (w / total) * 100 : 0) + '%';
+    } else {
+      presArrancar();
+    }
+  }
+
+  function abrirPresentacion() {
+    var lista = filtrar();
+    if (!lista.length) { toast('No hay nada que presentar: cambia los filtros.', 'err'); return; }
+    pres.lista = lista;
+    pres.indice = 0;
+    pres.activa = true;
+    pres.pausada = false;
+    $('#presentPlay').textContent = '⏸';
+    $('#present').hidden = false;
+    document.body.style.overflow = 'hidden';
+    presMostrar(true);
+    presArrancar();
+    var p = $('#present');
+    try {
+      if (p.requestFullscreen) p.requestFullscreen();
+      else if (p.webkitRequestFullscreen) p.webkitRequestFullscreen();
+    } catch (e) {}
+    presMostrarControles();
+  }
+
+  function cerrarPresentacion() {
+    pres.activa = false;
+    clearTimeout(pres.timer);
+    $('#present').hidden = true;
+    document.body.style.overflow = '';
+    var vid = $('#presentVideo');
+    try { vid.pause(); } catch (e) {}
+    try {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (document.webkitFullscreenElement) document.webkitExitFullscreen();
+    } catch (e) {}
+  }
+
+  function presMostrarControles() {
+    var c = $('#presentControles');
+    if (!c) return;
+    c.classList.remove('ocultos');
+    clearTimeout(pres._t);
+    pres._t = setTimeout(function () {
+      if (pres.activa && !pres.pausada) c.classList.add('ocultos');
+    }, 3200);
+  }
+
   /* ---------------- eventos ---------------- */
   function wire() {
-    // tema
-    var tema = localStorage.getItem('jenniper.tema');
-    if (tema) document.documentElement.setAttribute('data-theme', tema);
+    // tema ("Antes de dormir" = noche con luna y estrellas)
+    var tema = localStorage.getItem('jenniper.tema') || 'light';
+    document.documentElement.setAttribute('data-theme', tema);
+    $('#iconoTema').textContent = tema === 'dark' ? '☀️' : '🌙';
+    if ($('#textoTema')) $('#textoTema').textContent = tema === 'dark' ? 'Salir el sol' : 'Antes de dormir';
     $('#btnTema').addEventListener('click', function () {
       var act = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', act);
+      $('#iconoTema').textContent = act === 'dark' ? '☀️' : '🌙';
+      if ($('#textoTema')) $('#textoTema').textContent = act === 'dark' ? 'Salir el sol' : 'Antes de dormir';
       localStorage.setItem('jenniper.tema', act);
+    });
+
+    // música de fondo
+    $('#btnMusica').addEventListener('click', alternarMusica);
+    $('#presentMusica').addEventListener('click', alternarMusica);
+    if (localStorage.getItem('jenniper.musica') === '1') {
+      // los navegadores exigen un gesto previo: arranca al primer clic/tecla
+      var arranque = function () {
+        if (window.Musica && !Musica.sonando) { Musica.iniciar(); sincronizarMusica(); }
+        document.removeEventListener('click', arranque);
+        document.removeEventListener('keydown', arranque);
+      };
+      document.addEventListener('click', arranque);
+      document.addEventListener('keydown', arranque);
+    }
+    sincronizarMusica();
+
+    // modo presentación
+    $('#btnPresentar').addEventListener('click', abrirPresentacion);
+    $('#presentSalir').addEventListener('click', cerrarPresentacion);
+    $('#presentNext').addEventListener('click', function () { presSiguiente(); presMostrarControles(); });
+    $('#presentPrev').addEventListener('click', function () { presAnterior(); presMostrarControles(); });
+    $('#presentPlay').addEventListener('click', function () { presPausa(); presMostrarControles(); });
+    $('#presentVel').addEventListener('change', function () {
+      pres.intervalo = +this.value || 8000;
+      if (pres.activa) presArrancar();
+    });
+    $('#presentVideo').addEventListener('ended', function () { if (pres.activa) presSiguiente(); });
+    $('#present').addEventListener('mousemove', presMostrarControles);
+    $('#present').addEventListener('click', presMostrarControles);
+    document.addEventListener('fullscreenchange', function () {
+      if (!document.fullscreenElement && pres.activa && !$('#present').hidden) {
+        // se salió de pantalla completa (Esc del navegador): cerramos la presentación
+        cerrarPresentacion();
+      }
     });
 
     // filtros
@@ -512,6 +767,13 @@
     });
 
     document.addEventListener('keydown', function (e) {
+      if (pres.activa) {
+        if (e.key === 'Escape') cerrarPresentacion();
+        else if (e.key === 'ArrowLeft') { presAnterior(); presMostrarControles(); }
+        else if (e.key === 'ArrowRight') { presSiguiente(); presMostrarControles(); }
+        else if (e.key === ' ') { e.preventDefault(); presPausa(); presMostrarControles(); }
+        return;
+      }
       if (!state.lb.abierto) return;
       if (e.key === 'Escape') cerrarLightbox();
       if (e.key === 'ArrowLeft') moverLightbox(-1);
