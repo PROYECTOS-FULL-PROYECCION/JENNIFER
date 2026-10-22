@@ -274,7 +274,7 @@ tempo lento (caja de música) + pad suave, filtro paso bajo y fundidos de entrad
 | `403` al hacer push | La cuenta autenticada no tiene permiso: usa la cuenta dueña (`gh auth login`) |
 | `fetch` del manifiesto falla | Abriste con `file://`; usa un servidor local |
 | Los vídeos no salían arriba | El muro en columnas llena en vertical: los vídeos van en una fila destacada aparte |
-| El sitio no se actualiza | Caché del navegador (Ctrl+F5) o mira la pestaña *Actions* |
+| El sitio no se actualiza | Caché del navegador (Ctrl+F5). GitHub Pages cachea 10 min; los `assets` llevan `?v=` en el HTML para forzar la recarga tras un despliegue |
 
 ---
 
