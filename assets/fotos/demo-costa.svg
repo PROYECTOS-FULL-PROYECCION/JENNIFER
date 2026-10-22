@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-label="Atardecer en la costa">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a5b"/><stop offset=".45" stop-color="#c9527a"/><stop offset="1" stop-color="#3a2a6b"/>
+    </linearGradient>
+    <radialGradient id="s" cx=".62" cy=".55" r=".16">
+      <stop offset="0" stop-color="#fff3c4"/><stop offset="1" stop-color="#ffd27f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <circle cx="744" cy="440" r="190" fill="url(#s)"/>
+  <circle cx="744" cy="440" r="66" fill="#ffe9a8"/>
+  <path d="M0 620 Q 200 560 400 610 T 800 600 T 1200 585 L1200 800 L0 800Z" fill="#2b1f52" opacity=".85"/>
+  <path d="M0 690 Q 240 640 480 685 T 960 672 T 1200 660 L1200 800 L0 800Z" fill="#1b1440"/>
+  <path d="M0 560 Q 260 520 520 560 T 1200 545" stroke="#ffd9a8" stroke-width="3" fill="none" opacity=".5"/>
+</svg>

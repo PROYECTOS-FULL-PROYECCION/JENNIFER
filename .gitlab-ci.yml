@@ -1,0 +1,39 @@
+# Despliegue en GitLab Pages.
+# El sitio es estático: no hace falta build, solo copiar los ficheros a public/.
+image: alpine:latest
+
+pages:
+  stage: deploy
+  script:
+    - rm -rf public
+    - mkdir -p public
+    - cp index.html public/
+    - cp -r assets data public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  # La galería se despublica sola: GitLab borra el despliegue pasado el plazo.
+  # Tras esa fecha la URL devuelve 404 y las fotos dejan de servirse.
+  pages:
+    expire_in: 4 months
+  # Si el repo tiene más de 1 MB de fotos, sube el límite o mueve las imágenes a R2.
+  # max_artifacts_size: 1500mb
+
+# ---------------------------------------------------------------
+# Limpieza mensual del bucket (si usas Cloudflare R2 / B2).
+# Se ejecuta el día 1 de cada mes y vacía el bucket de fotos, para
+# que las imágenes dejen de estar accesibles aunque la web siga viva.
+# Requiere variables de CI: R2_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY, R2_SECRET_KEY
+# ---------------------------------------------------------------
+limpieza-mensual:
+  stage: deploy
+  image: python:3.12-alpine
+  script:
+    - apk add --no-cache pip
+    - pip install boto3
+    - python tools/purgar-bucket.py --bucket "$R2_BUCKET" --endpoint "$R2_ENDPOINT" --confirmar
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  allow_failure: true

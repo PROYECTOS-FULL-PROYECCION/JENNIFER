@@ -1,0 +1,15 @@
+# temporales y entorno
+__pycache__/
+*.pyc
+.cache/
+*.log
+*.tmp
+.env
+.env.*
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# artefactos de pruebas locales
+tmp-test/
+data/tmp-test.json

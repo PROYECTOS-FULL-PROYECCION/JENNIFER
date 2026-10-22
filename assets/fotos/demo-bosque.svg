@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="Bosque de niebla">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9f0e4"/><stop offset="1" stop-color="#2f5d4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#g)"/>
+  <g fill="#1d4535" opacity=".85">
+    <path d="M120 900 L210 260 L300 900Z"/><path d="M300 900 L390 180 L480 900Z"/><path d="M500 900 L600 300 L700 900Z"/>
+    <path d="M720 900 L810 220 L900 900Z"/><path d="M920 900 L1010 340 L1100 900Z"/>
+  </g>
+  <g fill="#0f2b20" opacity=".55">
+    <path d="M0 900 L90 380 L180 900Z"/><path d="M1020 900 L1110 420 L1200 900Z"/>
+  </g>
+  <rect y="620" width="1200" height="280" fill="#e8f4ee" opacity=".35"/>
+  <rect y="760" width="1200" height="140" fill="#ffffff" opacity=".45"/>
+</svg>

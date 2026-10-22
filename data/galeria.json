@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "actualizado": "2026-10-21",
+  "expira": "2027-02-21",
+  "nota": "Las rutas relativas apuntan a archivos del repo (assets/fotos/...). También puedes usar URLs absolutas (https://...) de un CDN o bucket S3-compatible. 'thumb' es opcional: si falta, se usa 'url'.",
+  "fotos": [
+    {
+      "id": "costa-2026",
+      "thumb": "assets/fotos/demo-costa.svg",
+      "url": "assets/fotos/demo-costa.svg",
+      "titulo": "Atardecer en la costa",
+      "descripcion": "La última luz sobre el mar, con las nubes encendidas.",
+      "etiquetas": ["paisaje", "mar", "atardecer"],
+      "album": "Viajes",
+      "fecha": "2026-10-12",
+      "bytes": 0
+    },
+    {
+      "id": "montana-2026",
+      "thumb": "assets/fotos/demo-montana.svg",
+      "url": "assets/fotos/demo-montana.svg",
+      "titulo": "Montañas al amanecer",
+      "descripcion": "La nieve mas temprana en las cumbres.",
+      "etiquetas": ["paisaje", "montana"],
+      "album": "Viajes",
+      "fecha": "2026-09-28",
+      "bytes": 0
+    },
+    {
+      "id": "bosque-2026",
+      "thumb": "assets/fotos/demo-bosque.svg",
+      "url": "assets/fotos/demo-bosque.svg",
+      "titulo": "Bosque de niebla",
+      "descripcion": "Los abetos emergen de la bruma.",
+      "etiquetas": ["naturaleza", "bosque"],
+      "album": "Naturaleza",
+      "fecha": "2026-09-15",
+      "bytes": 0
+    },
+    {
+      "id": "ciudad-2026",
+      "thumb": "assets/fotos/demo-ciudad.svg",
+      "url": "assets/fotos/demo-ciudad.svg",
+      "titulo": "Ciudad de noche",
+      "descripcion": "Luces encendidas una noche entre semana.",
+      "etiquetas": ["ciudad", "noche"],
+      "album": "Calle",
+      "fecha": "2026-10-05",
+      "bytes": 0
+    }
+  ]
+}

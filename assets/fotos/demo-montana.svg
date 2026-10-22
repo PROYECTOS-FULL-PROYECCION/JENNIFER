@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" width="900" height="1200" role="img" aria-label="Montañas al amanecer">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe4ff"/><stop offset=".5" stop-color="#8fb6e8"/><stop offset="1" stop-color="#2c3f63"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#g)"/>
+  <circle cx="250" cy="250" r="90" fill="#fff" opacity=".85"/>
+  <path d="M0 900 L260 520 L420 760 L560 430 L900 900 L900 1200 L0 1200Z" fill="#33456d"/>
+  <path d="M0 1010 L200 700 L340 880 L520 640 L900 1010 L900 1200 L0 1200Z" fill="#1e2a49"/>
+  <path d="M180 640 L260 520 L340 640 L300 620 L260 570 L220 630Z" fill="#f2f7ff" opacity=".9"/>
+  <path d="M470 560 L560 430 L650 560 L600 540 L560 490 L520 550Z" fill="#f2f7ff" opacity=".9"/>
+</svg>
