@@ -95,18 +95,17 @@
     </div>
 
     <div class="top-actions">
-      <span class="chip chip-quiet" id="statFotos">0 páginas</span>
-      <button class="btn btn-musica" id="btnMusica" title="Activar o silenciar la caja de música">
-        <span id="iconoMusica">🔇</span> <span class="btn-txt" id="textoMusica">Música</span>
+      <button class="btn btn-musica" id="btnMusica" title="Activar o silenciar la caja de música" aria-label="Música">
+        <span id="iconoMusica">🔇</span>
       </button>
-      <button class="btn btn-noche" id="btnTema" title="Cambiar entre el día y el modo Antes de dormir">
-        <span id="iconoTema">🌙</span> <span class="btn-txt" id="textoTema">Antes de dormir</span>
+      <button class="btn btn-noche" id="btnTema" title="Cambiar entre el día y el modo Antes de dormir" aria-label="Cambiar el tema">
+        <span id="iconoTema">🌙</span>
       </button>
       <button class="btn primary" id="btnPresentar">
-        📖 Modo Cuento
+        📖 Cuento
       </button>
-      <button class="btn" id="btnSubir" title="Añadir fotos de prueba en este navegador">
-        ➕ Añadir foto
+      <button class="btn icon" id="btnSubir" title="Añadir una foto de prueba" aria-label="Añadir foto">
+        <span aria-hidden="true">➕</span>
       </button>
     </div>
   </div>
@@ -119,40 +118,41 @@
 
   <p class="aviso" id="aviso" hidden></p>
 
-  <!-- ========== barra de herramientas ========== -->
-  <section class="toolbar" id="toolbar" aria-label="Filtros del cuento">
-    <div class="search">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input type="search" id="q" placeholder="Buscar una página del cuento…" aria-label="Buscar">
-    </div>
+  <!-- ========== barra de filtros (una sola línea) ========== -->
+  <section class="toolbar" id="toolbar" aria-label="Buscar y filtrar el cuento">
+    <div class="barra-filtros">
+      <div class="search">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="q" placeholder="Buscar en el cuento…" aria-label="Buscar en el cuento">
+      </div>
 
-    <div class="toolbar-row">
-      <label class="field">
-        <span>Capítulo</span>
-        <select id="fAlbum"><option value="">Todos</option></select>
+      <label class="campo-sel">
+        <span class="sr-only">Capítulo</span>
+        <select id="fAlbum" title="Capítulo"><option value="">Todos los capítulos</option></select>
       </label>
-      <label class="field">
-        <span>Orden</span>
-        <select id="fOrden">
+
+      <label class="campo-sel">
+        <span class="sr-only">Orden</span>
+        <select id="fOrden" title="Orden de las páginas">
           <option value="antiguas">Del principio al final</option>
           <option value="nuevas">Del final al principio</option>
-          <option value="titulo">Por título A→Z</option>
-          <option value="tamano">Por tamaño</option>
+          <option value="titulo">Título A→Z</option>
+          <option value="tamano">Tamaño</option>
         </select>
       </label>
-      <div class="field">
-        <span>Cómo ver</span>
-        <div class="seg" role="group" aria-label="Cambiar vista">
-          <button class="seg-btn is-on" data-view="masonry">Páginas sueltas</button>
-          <button class="seg-btn" data-view="grid">Láminas iguales</button>
-        </div>
+
+      <div class="seg" role="group" aria-label="Cómo ver">
+        <button class="seg-btn is-on" data-view="masonry" title="Páginas sueltas" aria-label="Páginas sueltas"><span aria-hidden="true">▤</span></button>
+        <button class="seg-btn" data-view="grid" title="Láminas iguales" aria-label="Láminas iguales"><span aria-hidden="true">▦</span></button>
       </div>
-      <label class="check">
-        <input type="checkbox" id="fFavs"> <span>⭐ Solo mis favoritas</span>
-      </label>
+
+      <button class="btn icon btn-filtros" id="btnFiltros" aria-expanded="false" aria-label="Más filtros" title="Más filtros"><span aria-hidden="true">⚙️</span></button>
     </div>
 
-    <div class="tags" id="fTags" aria-label="Filtrar por etiqueta"></div>
+    <div class="filtros-extra" id="filtrosExtra">
+      <label class="check"><input type="checkbox" id="fFavs"> <span>⭐ Solo favoritas</span></label>
+      <div class="tags" id="fTags" aria-label="Filtrar por etiqueta"></div>
+    </div>
   </section>
 
   <!-- ========== zona de subida ========== -->
@@ -174,7 +174,8 @@
   </section>
 
   <!-- ========== galería ========== -->
-  <h2 class="titulo-seccion">Las páginas de nuestro día <small>· toca una para verla</small></h2>
+  <h2 class="titulo-seccion">Las páginas de nuestro día <small>· <span id="numPaginas">0</span> páginas · toca una para verla</small></h2>
+  <section id="videosDestacados" class="videos-destacados" aria-label="Vídeos destacados"></section>
   <section id="galeria" class="galeria masonry" aria-live="polite"></section>
 
   <div class="empty" id="vacio" hidden>

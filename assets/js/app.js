@@ -197,34 +197,47 @@
 
   var STICKERS = ['🐝', '🌸', '⭐', '🦋', '🎨', '🎈', '🌈', '🐣'];
 
+  function tarjetaHTML(f, idx) {
+    var esVideo = f.tipo === 'video';
+    var img = esVideo ? (f.poster || f.thumb || '') : (f.thumb || f.src);
+    var sticker = esVideo ? '🎬 Vídeo' : (STICKERS[idx % STICKERS.length] + ' ' + f.album);
+    var medio = img
+      ? '<img loading="lazy" decoding="async" src="' + esc(img) + '" alt="' + esc(f.titulo) + '">'
+      : '<div class="thumb-vacio"></div>';
+    return '<figure class="card' + (esVideo ? ' card-video' : '') + '" data-id="' + esc(f.id) + '" tabindex="0" role="button">' +
+      '<div class="card-marco">' +
+        medio +
+        '<span class="card-sticker">' + esc(sticker) + '</span>' +
+        (f.favoritos ? '<span class="fav-flag" title="Favorita">★</span>' : '') +
+        (f.local ? '<span class="card-sticker card-local">📌 Nueva</span>' : '') +
+        (esVideo ? '<span class="play-badge" aria-hidden="true">▶</span>' : '') +
+        (esVideo && f.duracion ? '<span class="dur">' + esc(fmtDur(f.duracion)) + '</span>' : '') +
+      '</div>' +
+      '<figcaption class="card-body">' +
+        '<div><h3>' + esc(f.titulo) + '</h3>' +
+        '<p>' + esc(fmtFecha(f.fecha)) + '</p></div>' +
+        '<span class="pagina-num" title="Página ' + (idx + 1) + '">' + (idx + 1) + '</span>' +
+      '</figcaption>' +
+      '</figure>';
+  }
+
   function renderGaleria() {
     var lista = filtrar();
+    var videos = [], fotos = [];
+    lista.forEach(function (f, i) {
+      var html = tarjetaHTML(f, i);
+      if (f.tipo === 'video') videos.push(html); else fotos.push(html);
+    });
+
+    var vd = $('#videosDestacados');
+    vd.innerHTML = videos.join('');
+    vd.hidden = videos.length === 0;
+
     var cont = $('#galeria');
-    cont.innerHTML = lista.map(function (f, idx) {
-      var esVideo = f.tipo === 'video';
-      var img = esVideo ? (f.poster || f.thumb || '') : (f.thumb || f.src);
-      var sticker = esVideo ? '🎬 Vídeo' : (STICKERS[idx % STICKERS.length] + ' ' + f.album);
-      var medio = img
-        ? '<img loading="lazy" decoding="async" src="' + esc(img) + '" alt="' + esc(f.titulo) + '">'
-        : '<div class="thumb-vacio"></div>';
-      return '<figure class="card' + (esVideo ? ' card-video' : '') + '" data-id="' + esc(f.id) + '" tabindex="0" role="button">' +
-        '<div class="card-marco">' +
-          medio +
-          '<span class="card-sticker">' + esc(sticker) + '</span>' +
-          (f.favoritos ? '<span class="fav-flag" title="Favorita">★</span>' : '') +
-          (f.local ? '<span class="card-sticker card-local">📌 Nueva</span>' : '') +
-          (esVideo ? '<span class="play-badge" aria-hidden="true">▶</span>' : '') +
-          (esVideo && f.duracion ? '<span class="dur">' + esc(fmtDur(f.duracion)) + '</span>' : '') +
-        '</div>' +
-        '<figcaption class="card-body">' +
-          '<div><h3>' + esc(f.titulo) + '</h3>' +
-          '<p>' + esc(fmtFecha(f.fecha)) + '</p></div>' +
-          '<span class="pagina-num" title="Página ' + (idx + 1) + '">' + (idx + 1) + '</span>' +
-        '</figcaption>' +
-        '</figure>';
-    }).join('');
+    cont.innerHTML = fotos.join('');
+    cont.hidden = fotos.length === 0;
+
     $('#vacio').hidden = lista.length > 0;
-    cont.hidden = lista.length === 0;
   }
 
   function renderTags() {
@@ -252,7 +265,9 @@
   function renderStats() {
     var locales = state.fotos.filter(function (f) { return f.local; });
     var peso = locales.reduce(function (s, f) { return s + (f.bytes || 0); }, 0);
-    $('#statFotos').textContent = '📖 ' + state.fotos.length + (state.fotos.length === 1 ? ' página' : ' páginas');
+    var n = state.fotos.length;
+    if ($('#numPaginas')) $('#numPaginas').textContent = n;
+    if ($('#statFotos')) $('#statFotos').textContent = '📖 ' + n + (n === 1 ? ' página' : ' páginas');
     if ($('#statPeso')) {
       $('#statPeso').textContent = peso ? fmtBytes(peso) + ' en este navegador' : 'sin subidas locales';
     }
@@ -792,13 +807,20 @@
       function () { presAnterior(); presMostrarControles(); });
     permitirDeslizar($('#lb'), function () { moverLightbox(1); }, function () { moverLightbox(-1); });
 
-    // filtros plegables (móvil)
-    $('#bmFiltros').addEventListener('click', function () {
+    // filtros plegables (barra única)
+    var alternarFiltros = function () {
       var tb = $('#toolbar');
       var abierto = tb.classList.toggle('abierto');
-      this.classList.toggle('is-on', abierto);
-      if (abierto) tb.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+      $('#bmFiltros').classList.toggle('is-on', abierto);
+      var bf = $('#btnFiltros');
+      bf.classList.toggle('is-on', abierto);
+      bf.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+      if (abierto && window.matchMedia('(max-width:820px)').matches) {
+        tb.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+    $('#bmFiltros').addEventListener('click', alternarFiltros);
+    $('#btnFiltros').addEventListener('click', alternarFiltros);
     document.addEventListener('fullscreenchange', function () {
       if (!document.fullscreenElement && pres.activa && !$('#present').hidden) {
         // se salió de pantalla completa (Esc del navegador): cerramos la presentación
