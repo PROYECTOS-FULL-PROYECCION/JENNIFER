@@ -1,0 +1,63 @@
+name: Desplegar en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:          # permite reabrir la galería a mano
+    inputs:
+      forzar_abierta:
+        description: "Desplegar la galería aunque la fecha de cierre ya haya pasado"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Comprobar fecha de cierre
+        id: check
+        run: |
+          EXPIRA=$(python3 -c "import json;print(json.load(open('data/galeria.json',encoding='utf-8')).get('expira') or '')")
+          HOY=$(date -u +%F)
+          CERRADA=false
+          if [ -n "$EXPIRA" ] && [[ "$HOY" > "$EXPIRA" ]]; then
+            CERRADA=true
+          fi
+          if [ "${{ inputs.forzar_abierta }}" = "true" ]; then
+            CERRADA=false
+          fi
+          echo "expira=$EXPIRA" >> $GITHUB_OUTPUT
+          echo "cerrada=$CERRADA" >> $GITHUB_OUTPUT
+          echo "Fecha de cierre: ${EXPIRA:-sin fecha} (hoy $HOY) -> cerrada=$CERRADA"
+
+      - name: Preparar el sitio
+        run: |
+          mkdir -p _site
+          if [ "${{ steps.check.outputs.cerrada }}" = "true" ]; then
+            echo "Galeria cerrada: se publica solo la pagina de aviso."
+            cp cerrar.html _site/index.html
+          else
+            cp index.html _site/
+            cp -r assets data _site/
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: despliegue
+        uses: actions/deploy-pages@v4
