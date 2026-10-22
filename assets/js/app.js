@@ -203,7 +203,7 @@
       var medio = img
         ? '<img loading="lazy" decoding="async" src="' + esc(img) + '" alt="' + esc(f.titulo) + '">'
         : '<div class="thumb-vacio"></div>';
-      return '<figure class="card' + (esVideo ? ' card-video' : '') + '" data-id="' + esc(f.id) + '" tabindex="0" role="button" aria-label="Página ' + (idx + 1) + ': ' + esc(f.titulo) + '">' +
+      return '<figure class="card' + (esVideo ? ' card-video' : '') + '" data-id="' + esc(f.id) + '" tabindex="0" role="button">' +
         '<div class="card-marco">' +
           medio +
           '<span class="card-sticker">' + esc(sticker) + '</span>' +
@@ -466,6 +466,9 @@
     var ic = $('#iconoMusica'); if (ic) ic.textContent = sonando ? '🎵' : '🔇';
     var tx = $('#textoMusica'); if (tx) tx.textContent = sonando ? 'Sonando' : 'Música';
     var bm = $('#btnMusica'); if (bm) bm.classList.toggle('is-on', sonando);
+    var ib = $('#bmIconoMusica'); if (ib) ib.textContent = sonando ? '🎵' : '🔇';
+    var tb = $('#bmTextoMusica'); if (tb) tb.textContent = sonando ? 'Sonando' : 'Música';
+    var bb = $('#bmMusica'); if (bb) bb.classList.toggle('is-on', sonando);
     var ip = $('#presentMusica'); if (ip) ip.textContent = sonando ? '🎵' : '🔇';
     localStorage.setItem('jenniper.musica', sonando ? '1' : '0');
   }
@@ -475,7 +478,6 @@
     sincronizarMusica();
     toast(Musica.sonando ? 'Música activada 🎵' : 'Música silenciada 🔇');
   }
-
   /* =========================================================
      Modo presentación: una foto por pantalla, transiciones
      suaves (crossfade + zoom tipo Ken Burns) y autoavance.
@@ -652,30 +654,115 @@
     }, 3200);
   }
 
+  /* ---------------- intro de estrellitas ---------------- */
+  function iniciarIntro() {
+    var intro = $('#intro');
+    if (!intro) return;
+    // ?intro=0 la desactiva, ?intro=1 la fuerza (útil para probarla)
+    var q = location.search;
+    if (/[?&]intro=0/.test(q)) { intro.remove(); return; }
+    var forzada = /[?&]intro=1/.test(q);
+    var reducido = !forzada && window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducido) { intro.remove(); return; }
+
+    document.body.classList.add('intro-abierta');
+    var cielo = $('#introCielo');
+    var i, el, tam;
+
+    for (i = 0; i < 90; i++) {
+      el = document.createElement('span');
+      el.className = 'intro-punto';
+      tam = 2 + Math.random() * 4.5;
+      el.style.width = tam + 'px';
+      el.style.height = tam + 'px';
+      el.style.left = (Math.random() * 100).toFixed(2) + '%';
+      el.style.top = (Math.random() * 100).toFixed(2) + '%';
+      el.style.animationDelay = (Math.random() * 1.8).toFixed(2) + 's';
+      el.style.animationDuration = (1.4 + Math.random() * 1.8).toFixed(2) + 's';
+      cielo.appendChild(el);
+    }
+    for (i = 0; i < 7; i++) {
+      el = document.createElement('span');
+      el.className = 'intro-destello';
+      el.textContent = i % 2 ? '✦' : '✧';
+      el.style.left = (6 + Math.random() * 88).toFixed(2) + '%';
+      el.style.top = (4 + Math.random() * 80).toFixed(2) + '%';
+      el.style.fontSize = (14 + Math.random() * 16).toFixed(0) + 'px';
+      el.style.animationDelay = (0.4 + Math.random() * 1.3).toFixed(2) + 's';
+      cielo.appendChild(el);
+    }
+
+    var cerrada = false;
+    var cerrar = function () {
+      if (cerrada) return;
+      cerrada = true;
+      document.body.classList.remove('intro-abierta');
+      intro.classList.add('saliendo');
+      setTimeout(function () { if (intro.parentNode) intro.remove(); }, 900);
+    };
+    setTimeout(cerrar, 2700);
+    intro.addEventListener('click', cerrar);
+    intro.addEventListener('touchstart', cerrar, { passive: true });
+  }
+
+  /* ---------------- gestos de deslizar ---------------- */
+  function permitirDeslizar(el, alIzquierda, alDerecha) {
+    if (!el) return;
+    var x0 = null, y0 = null, t0 = 0;
+    el.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { x0 = null; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+    }, { passive: true });
+    el.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - x0, dy = t.clientY - y0, dt = Date.now() - t0;
+      x0 = null;
+      if (dt > 800) return;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+      if (dx < 0) alIzquierda(); else alDerecha();
+    }, { passive: true });
+  }
+
+  /* ---------------- tema día / "antes de dormir" ---------------- */
+  function aplicarTema(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    var noche = t === 'dark';
+    if ($('#iconoTema')) $('#iconoTema').textContent = noche ? '☀️' : '🌙';
+    if ($('#textoTema')) $('#textoTema').textContent = noche ? 'Salir el sol' : 'Antes de dormir';
+    if ($('#bmIconoTema')) $('#bmIconoTema').textContent = noche ? '☀️' : '🌙';
+    if ($('#bmTextoTema')) $('#bmTextoTema').textContent = noche ? 'Día' : 'Noche';
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', noche ? '#0d1b3e' : '#9be2ff');
+    localStorage.setItem('jenniper.tema', t);
+  }
+  function alternarTema() {
+    aplicarTema(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+
   /* ---------------- eventos ---------------- */
   function wire() {
-    // tema ("Antes de dormir" = noche con luna y estrellas)
-    var tema = localStorage.getItem('jenniper.tema') || 'light';
-    document.documentElement.setAttribute('data-theme', tema);
-    $('#iconoTema').textContent = tema === 'dark' ? '☀️' : '🌙';
-    if ($('#textoTema')) $('#textoTema').textContent = tema === 'dark' ? 'Salir el sol' : 'Antes de dormir';
-    $('#btnTema').addEventListener('click', function () {
-      var act = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', act);
-      $('#iconoTema').textContent = act === 'dark' ? '☀️' : '🌙';
-      if ($('#textoTema')) $('#textoTema').textContent = act === 'dark' ? 'Salir el sol' : 'Antes de dormir';
-      localStorage.setItem('jenniper.tema', act);
-    });
+    // tema
+    aplicarTema(localStorage.getItem('jenniper.tema') || 'light');
+    $('#btnTema').addEventListener('click', alternarTema);
+    $('#bmTema').addEventListener('click', alternarTema);
 
     // música de fondo
     $('#btnMusica').addEventListener('click', alternarMusica);
+    $('#bmMusica').addEventListener('click', alternarMusica);
     $('#presentMusica').addEventListener('click', alternarMusica);
     if (localStorage.getItem('jenniper.musica') === '1') {
-      // los navegadores exigen un gesto previo: arranca al primer clic/tecla
-      var arranque = function () {
-        if (window.Musica && !Musica.sonando) { Musica.iniciar(); sincronizarMusica(); }
+      // los navegadores exigen un gesto previo: arranca al primer clic/tecla,
+      // pero solo si el usuario no ha apagado la música mientras tanto.
+      var arranque = function (e) {
         document.removeEventListener('click', arranque);
         document.removeEventListener('keydown', arranque);
+        var enBotonMusica = e && e.target && e.target.closest &&
+          e.target.closest('#btnMusica, #bmMusica, #presentMusica');
+        if (enBotonMusica) return;                       // ese botón ya decide
+        if (localStorage.getItem('jenniper.musica') !== '1') return;
+        if (window.Musica && !Musica.sonando) { Musica.iniciar(); sincronizarMusica(); }
       };
       document.addEventListener('click', arranque);
       document.addEventListener('keydown', arranque);
@@ -684,6 +771,7 @@
 
     // modo presentación
     $('#btnPresentar').addEventListener('click', abrirPresentacion);
+    $('#bmCuento').addEventListener('click', abrirPresentacion);
     $('#presentSalir').addEventListener('click', cerrarPresentacion);
     $('#presentNext').addEventListener('click', function () { presSiguiente(); presMostrarControles(); });
     $('#presentPrev').addEventListener('click', function () { presAnterior(); presMostrarControles(); });
@@ -695,6 +783,18 @@
     $('#presentVideo').addEventListener('ended', function () { if (pres.activa) presSiguiente(); });
     $('#present').addEventListener('mousemove', presMostrarControles);
     $('#present').addEventListener('click', presMostrarControles);
+    permitirDeslizar($('#present'),
+      function () { presSiguiente(); presMostrarControles(); },
+      function () { presAnterior(); presMostrarControles(); });
+    permitirDeslizar($('#lb'), function () { moverLightbox(1); }, function () { moverLightbox(-1); });
+
+    // filtros plegables (móvil)
+    $('#bmFiltros').addEventListener('click', function () {
+      var tb = $('#toolbar');
+      var abierto = tb.classList.toggle('abierto');
+      this.classList.toggle('is-on', abierto);
+      if (abierto) tb.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
     document.addEventListener('fullscreenchange', function () {
       if (!document.fullscreenElement && pres.activa && !$('#present').hidden) {
         // se salió de pantalla completa (Esc del navegador): cerramos la presentación
@@ -823,6 +923,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    iniciarIntro();
     wire();
     init();
   });

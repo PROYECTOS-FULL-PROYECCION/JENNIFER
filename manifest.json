@@ -1,0 +1,32 @@
+{
+  "name": "El cuento de la profe JENNIFFER",
+  "short_name": "Profe JENNIFFER",
+  "description": "Álbum de fotos y vídeos de las actividades de educación infantil.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff7dc",
+  "theme_color": "#9be2ff",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

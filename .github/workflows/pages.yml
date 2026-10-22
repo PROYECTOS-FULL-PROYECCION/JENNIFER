@@ -52,6 +52,7 @@ jobs:
             cp cerrar.html _site/index.html
           else
             cp index.html _site/
+            cp manifest.json _site/
             cp -r assets data _site/
           fi
 

@@ -2,9 +2,17 @@
 <html lang="es" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>El cuento de la profe Jennifer · Galería infantil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El cuento de la profe JENNIFFER · Educación Infantil</title>
 <meta name="description" content="Álbum ilustrado de actividades, dibujos y juegos al aire libre.">
+<meta name="theme-color" content="#9be2ff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Profe JENNIFFER">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&display=swap">
@@ -12,6 +20,18 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 </head>
 <body>
+
+<!-- ==================== ANIMACIÓN DE ENTRADA ==================== -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-cielo" id="introCielo"></div>
+  <div class="intro-luna"></div>
+  <div class="intro-fugaz"></div>
+  <div class="intro-texto">
+    <span class="intro-globo">🎈</span>
+    <h2>El cuento de la profe JENNIFFER</h2>
+    <p>Abriendo el cuaderno…</p>
+  </div>
+</div>
 
 <a class="skip" href="#galeria">Saltar al cuento</a>
 
@@ -69,17 +89,17 @@
     <div class="brand">
       <span class="brand-abc" aria-hidden="true">Aa</span>
       <div>
-        <h1 id="tituloWeb">Profe Jennifer</h1>
+        <h1 id="tituloWeb">Profe JENNIFFER</h1>
         <p class="brand-sub" id="subtituloWeb">Un día de juegos y colores 🌈</p>
       </div>
     </div>
 
     <div class="top-actions">
       <span class="chip chip-quiet" id="statFotos">0 páginas</span>
-      <button class="btn btn-musica" id="btnMusica" title="Caja de música" aria-label="Activar o silenciar la caja de música">
+      <button class="btn btn-musica" id="btnMusica" title="Activar o silenciar la caja de música">
         <span id="iconoMusica">🔇</span> <span class="btn-txt" id="textoMusica">Música</span>
       </button>
-      <button class="btn btn-noche" id="btnTema" title="Modo Antes de dormir" aria-label="Cambiar entre día y modo Antes de dormir">
+      <button class="btn btn-noche" id="btnTema" title="Cambiar entre el día y el modo Antes de dormir">
         <span id="iconoTema">🌙</span> <span class="btn-txt" id="textoTema">Antes de dormir</span>
       </button>
       <button class="btn primary" id="btnPresentar">
@@ -95,15 +115,78 @@
 <main class="wrap">
 
   <!-- ==================== PORTADA ABIERTA DEL LIBRO ==================== -->
-  <section class="portada-libro" aria-label="Bienvenida al cuento">
+  
+
+  <p class="aviso" id="aviso" hidden></p>
+
+  <!-- ========== barra de herramientas ========== -->
+  <section class="toolbar" id="toolbar" aria-label="Filtros del cuento">
+    <div class="search">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" id="q" placeholder="Buscar una página del cuento…" aria-label="Buscar">
+    </div>
+
+    <div class="toolbar-row">
+      <label class="field">
+        <span>Capítulo</span>
+        <select id="fAlbum"><option value="">Todos</option></select>
+      </label>
+      <label class="field">
+        <span>Orden</span>
+        <select id="fOrden">
+          <option value="antiguas">Del principio al final</option>
+          <option value="nuevas">Del final al principio</option>
+          <option value="titulo">Por título A→Z</option>
+          <option value="tamano">Por tamaño</option>
+        </select>
+      </label>
+      <div class="field">
+        <span>Cómo ver</span>
+        <div class="seg" role="group" aria-label="Cambiar vista">
+          <button class="seg-btn is-on" data-view="masonry">Páginas sueltas</button>
+          <button class="seg-btn" data-view="grid">Láminas iguales</button>
+        </div>
+      </div>
+      <label class="check">
+        <input type="checkbox" id="fFavs"> <span>⭐ Solo mis favoritas</span>
+      </label>
+    </div>
+
+    <div class="tags" id="fTags" aria-label="Filtrar por etiqueta"></div>
+  </section>
+
+  <!-- ========== zona de subida ========== -->
+  <section class="uploader" id="uploader" hidden>
+    <div class="uploader-head">
+      <h2>🎨 Pegar nuevas fotos en tu cuaderno</h2>
+      <button class="btn ghost" id="btnCancelarSubida">Cancelar</button>
+    </div>
+    <div class="uploader-meta">
+      <label class="field"><span>Capítulo</span><input type="text" id="upAlbum" placeholder="Actividades"></label>
+      <label class="field"><span>Etiquetas</span><input type="text" id="upTags" placeholder="dibujos, juegos"></label>
+      <label class="field"><span>Fecha</span><input type="date" id="upFecha"></label>
+    </div>
+    <ul class="up-list" id="upList"></ul>
+    <div class="uploader-foot">
+      <span class="muted" id="upResumen">0 archivos</span>
+      <button class="btn primary" id="btnPublicar">Pegar en el álbum</button>
+    </div>
+  </section>
+
+  <!-- ========== galería ========== -->
+  <h2 class="titulo-seccion">Las páginas de nuestro día <small>· toca una para verla</small></h2>
+  <section id="galeria" class="galeria masonry" aria-live="polite"></section>
+
+  <div class="empty" id="vacio" hidden>
+    <h3>¡Esta página del cuento está en blanco! 🐣</h3>
+    <p>Cambia los filtros de arriba para ver todas las fotos y vídeos.</p>
+  </div>
+
+<section class="portada-libro cierre-libro" aria-label="Colorín colorado, este cuento se ha acabado">
     <div class="portada-izq">
-      <span class="etiqueta-cuento">📚 Cuaderno de nuestra clase</span>
-      <h2 class="portada-titulo">¡Qué día tan bonito para aprender jugando!</h2>
-      <p class="portada-relato">
-        Salimos al parque con nuestros lápices, hojas y juegos. Dibujamos en el suelo,
-        compartimos risas con nuestros amigos y descubrimos colores y formas nuevas.
-        ¡Pasa las páginas para ver cada momento!
-      </p>
+      <span class="etiqueta-cuento">🌈 Colorín colorado</span>
+      <h2 class="portada-titulo">…este cuento se ha acabado</h2>
+      <p class="portada-relato">Y mañana volveremos a dibujar, a compartir y a aprender jugando. Gracias por acompañarnos en este día tan bonito. 💛</p>
       <div class="portada-figuras" aria-hidden="true">
         <span class="fig fig-circulo" title="Círculo rojo">●<small>círculo</small></span>
         <span class="fig fig-estrella" title="Estrella amarilla">★<small>estrella</small></span>
@@ -159,76 +242,28 @@
       </svg>
     </div>
   </section>
-
-  <p class="aviso" id="aviso" hidden></p>
-
-  <!-- ========== barra de herramientas ========== -->
-  <section class="toolbar" aria-label="Filtros del cuento">
-    <div class="search">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input type="search" id="q" placeholder="Buscar una página del cuento…" aria-label="Buscar">
-    </div>
-
-    <div class="toolbar-row">
-      <label class="field">
-        <span>Capítulo</span>
-        <select id="fAlbum"><option value="">Todos</option></select>
-      </label>
-      <label class="field">
-        <span>Orden</span>
-        <select id="fOrden">
-          <option value="antiguas">Del principio al final</option>
-          <option value="nuevas">Del final al principio</option>
-          <option value="titulo">Por título A→Z</option>
-          <option value="tamano">Por tamaño</option>
-        </select>
-      </label>
-      <div class="field">
-        <span>Cómo ver</span>
-        <div class="seg" role="group" aria-label="Cambiar vista">
-          <button class="seg-btn is-on" data-view="masonry">Páginas sueltas</button>
-          <button class="seg-btn" data-view="grid">Láminas iguales</button>
-        </div>
-      </div>
-      <label class="check">
-        <input type="checkbox" id="fFavs"> <span>⭐ Solo mis favoritas</span>
-      </label>
-    </div>
-
-    <div class="tags" id="fTags" aria-label="Filtrar por etiqueta"></div>
-  </section>
-
-  <!-- ========== zona de subida ========== -->
-  <section class="uploader" id="uploader" hidden>
-    <div class="uploader-head">
-      <h2>🎨 Pegar nuevas fotos en tu cuaderno</h2>
-      <button class="btn ghost" id="btnCancelarSubida">Cancelar</button>
-    </div>
-    <div class="uploader-meta">
-      <label class="field"><span>Capítulo</span><input type="text" id="upAlbum" placeholder="Actividades"></label>
-      <label class="field"><span>Etiquetas</span><input type="text" id="upTags" placeholder="dibujos, juegos"></label>
-      <label class="field"><span>Fecha</span><input type="date" id="upFecha"></label>
-    </div>
-    <ul class="up-list" id="upList"></ul>
-    <div class="uploader-foot">
-      <span class="muted" id="upResumen">0 archivos</span>
-      <button class="btn primary" id="btnPublicar">Pegar en el álbum</button>
-    </div>
-  </section>
-
-  <!-- ========== galería ========== -->
-  <section id="galeria" class="galeria masonry" aria-live="polite"></section>
-
-  <div class="empty" id="vacio" hidden>
-    <h3>¡Esta página del cuento está en blanco! 🐣</h3>
-    <p>Cambia los filtros de arriba para ver todas las fotos y vídeos.</p>
-  </div>
 </main>
 
 <footer class="foot wrap">
-  <span>🐝 El cuento de la profe Jennifer · Educación Infantil</span>
+  <span>🐝 El cuento de la profe JENNIFFER · Educación Infantil</span>
   <span class="muted">Con cariño para nuestros niños y sus familias 💛</span>
 </footer>
+
+<!-- ========== barra inferior solo móvil ========== -->
+<nav class="barra-movil" id="barraMovil" aria-label="Acciones rápidas">
+  <button class="bm-btn" id="bmFiltros" title="Mostrar u ocultar los filtros">
+    <span class="bm-ico">🔍</span><span>Filtros</span>
+  </button>
+  <button class="bm-btn" id="bmMusica" title="Activar o silenciar la música">
+    <span class="bm-ico" id="bmIconoMusica">🔇</span><span id="bmTextoMusica">Música</span>
+  </button>
+  <button class="bm-btn" id="bmTema" title="Cambiar entre el día y la noche">
+    <span class="bm-ico" id="bmIconoTema">🌙</span><span id="bmTextoTema">Noche</span>
+  </button>
+  <button class="bm-btn bm-primario" id="bmCuento" title="Abrir el modo cuento">
+    <span class="bm-ico">📖</span><span>Cuento</span>
+  </button>
+</nav>
 
 <!-- ========== lightbox ========== -->
 <div class="lb" id="lb" hidden aria-modal="true" role="dialog" aria-label="Página del cuento">
