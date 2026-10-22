@@ -1,9 +1,10 @@
 name: Cierre de la galería
 
 # Se ejecuta el 21 de febrero a las 05:00 UTC (la fecha de cierre del álbum).
-# 1. Publica la página de aviso (la galería deja de verse).
-# 2. Pasa el repositorio a privado (las fotos dejan de ser públicas en GitHub).
-# 3. Intenta borrar el sitio de Pages (en el plan Free ya cae con el paso 2).
+# 1. Publica la página de aviso: la galería deja de verse.
+# 2. Con un PAT opcional (secreto PAT_ADMIN) pasa el repositorio a privado:
+#    las fotos dejan de ser públicas también en GitHub.
+# 3. Intenta borrar el sitio de Pages (en el plan Free cae solo con el paso 2).
 
 on:
   schedule:
@@ -19,7 +20,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  administration: write
 
 jobs:
   cerrar:
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Publicar la página de cierre
+      - name: Publicar la pagina de cierre
         run: |
           mkdir -p _site
           cp cerrar.html _site/index.html
@@ -43,15 +43,25 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Volver el repositorio privado
-        if: ${{ inputs.hacer_privado }}
+        if: ${{ inputs.hacer_privado != false }}
+        env:
+          GH_TOKEN: ${{ secrets.PAT_ADMIN }}
         run: |
-          gh api --method PATCH "repos/${{ github.repository }}" -f private=true || \
-            echo "No se pudo cambiar la visibilidad (hace falta permiso de administracion)."
+          if [ -z "$GH_TOKEN" ]; then
+            echo "Sin PAT_ADMIN: el repositorio sigue publico."
+            exit 0
+          fi
+          gh api --method PATCH "repos/${{ github.repository }}" -f private=true
+          echo "Repositorio pasado a privado."
 
       - name: Borrar el sitio de Pages
         continue-on-error: true
-        run: |
-          gh api --method DELETE "repos/${{ github.repository }}/pages" || \
-            echo "El sitio de Pages se queda publicado (visible solo en repos privados con GitHub Pro)."
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_ADMIN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "Sin PAT_ADMIN: el sitio de Pages se queda publicado."
+            exit 0
+          fi
+          gh api --method DELETE "repos/${{ github.repository }}/pages" || \
+            echo "No se pudo borrar el sitio de Pages."
