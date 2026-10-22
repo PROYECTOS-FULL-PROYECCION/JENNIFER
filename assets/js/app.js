@@ -174,6 +174,10 @@
     });
     var orden = f.orden;
     out.sort(function (a, b) {
+      // Los vídeos van siempre los primeros: es lo que ve quien entra.
+      var va = a.tipo === 'video' ? 0 : 1;
+      var vb = b.tipo === 'video' ? 0 : 1;
+      if (va !== vb) return va - vb;
       if (orden === 'titulo') return a.titulo.localeCompare(b.titulo, 'es');
       if (orden === 'tamano') return b.bytes - a.bytes;
       var fa = a.fecha || '', fb = b.fecha || '';

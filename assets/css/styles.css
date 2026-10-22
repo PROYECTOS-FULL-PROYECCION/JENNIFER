@@ -367,6 +367,14 @@ body.galeria-cerrada .empty{display:none}
 .fav-flag[hidden]{display:none}
 .card-local{position:absolute;bottom:16px;left:16px;z-index:2}
 
+.card.card-video{
+  border-color:#ff6242;
+  box-shadow:0 8px 0 rgba(216,67,38,.45), 0 18px 34px rgba(255,98,66,.30);
+}
+.card.card-video::before{background:rgba(255,98,66,.85)}
+.card.card-video .card-marco{background:var(--pastel-rosa)}
+.card.card-video:hover{box-shadow:0 30px 60px rgba(255,98,66,.35), 0 12px 0 rgba(216,67,38,.45)}
+
 .play-badge{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:68px;height:68px;border-radius:50%;display:grid;place-items:center;
