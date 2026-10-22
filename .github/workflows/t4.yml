@@ -1,0 +1,57 @@
+﻿name: Cierre mensual de la galerÃ­a
+
+# Se ejecuta el 21 de febrero a las 05:00 UTC (la fecha de cierre del Ã¡lbum).
+# Publica la pÃ¡gina de aviso y, si hay credenciales de R2, vacÃ­a el bucket:
+# asÃ­ las fotos dejan de existir, no solo de mostrarse.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 5 21 2 *'
+  workflow_dispatch:
+    inputs:
+      purgar_bucket:
+        description: "Vaciar tambiÃ©n el bucket de fotos (R2)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  cerrar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publicar la pÃ¡gina de cierre
+        run: |
+          mkdir -p _site
+          cp cerrar.html _site/index.html
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: despliegue
+        uses: actions/deploy-pages@v4
+
+      - name: Vaciar el bucket de fotos
+        if: ${{ inputs.purgar_bucket != false && secrets.R2_BUCKET != '' }}
+        run: |
+          python3 -m pip install --quiet boto3
+          python tools/purgar-bucket.py \
+            --bucket "${{ secrets.R2_BUCKET }}" \
+            --endpoint "${{ secrets.R2_ENDPOINT }}" \
+            --confirmar
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_KEY }}
+          AWS_DEFAULT_REGION: auto
+

@@ -1,0 +1,9 @@
+﻿name: t1 control
+on:
+  push:
+    branches: [main]
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
