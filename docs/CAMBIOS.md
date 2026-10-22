@@ -150,3 +150,25 @@ la construcción inválida.
 - Descarga del álbum completo en ZIP.
 - Contador de visitas.
 - Dominio propio (p. ej. `cuento-profejenniffer.com`).
+
+---
+
+## 10. Tercer vídeo y dos correcciones
+
+Se añadió `video_2026-10-21_21-54-29.mp4` (69 s): el script lo recomprimió a 17,4 MB y generó
+portada. Total: **27 páginas (3 vídeos + 24 fotos)**.
+
+**Fallos encontrados al probarlo:**
+
+1. **El clic en un vídeo destacado no abría el visor.** El listener de clic estaba solo en
+   `#galeria`; al sacar los vídeos a `#videosDestacados` quedaron fuera. Ahora la delegación
+   se aplica a los dos contenedores.
+2. **Los títulos personalizados se perdían** al volver a ejecutar el script: la caché
+   restauraba los títulos originales del nombre del archivo. Ahora `preparar-album.py`
+   conserva el `titulo` que ya existe en el manifiesto para cada `id` (salvo con `--forzar`).
+
+También se mejoró el detector de fechas del script: acepta `20261017`, `2026-10-17` y
+`2026-10-17_21-54-29`, además de la hora en varios formatos.
+
+**Cache-busting:** los assets pasan a `?v=20261023` para que el navegador no sirva la versión
+anterior (GitHub Pages cachea 10 minutos).

@@ -48,6 +48,11 @@ EXT_IMG = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tif", ".tiff"}
 EXT_VID = {".mp4", ".mov", ".m4v", ".webm", ".avi", ".mkv"}
 CACHE = RAIZ / ".cache" / "album.json"
 
+# Acepta 20261017, 2026-10-17, 2026_10_17, con hora 165017 / 16-50-17 / 16_50_17
+RE_FECHA = re.compile(
+    r"(\d{4})[-_. ]?(\d{2})[-_. ]?(\d{2})(?:[-_. T]?(\d{2})[-_.:]?(\d{2})[-_.:]?(\d{2})?)?"
+)
+
 
 def slug(texto):
     texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode()
@@ -56,10 +61,10 @@ def slug(texto):
 
 
 def titulo_limpio(nombre, vacio=False):
-    """Si el nombre trae fecha (20261017 / 20261017_165017) la usa como titulo."""
+    """Si el nombre trae fecha (20261017 / 2026-10-17 / 2026-10-17_21-54-29) la usa como titulo."""
     if vacio:
         return ""
-    m = re.search(r"(\d{4})(\d{2})(\d{2})(?:[_ .-]?(\d{2})(\d{2})(\d{2})?)?", nombre)
+    m = RE_FECHA.search(nombre)
     if m:
         try:
             d = datetime.strptime("%s-%s-%s" % (m.group(1), m.group(2), m.group(3)), "%Y-%m-%d")
@@ -69,15 +74,15 @@ def titulo_limpio(nombre, vacio=False):
         except ValueError:
             pass
     base = Path(nombre).stem
-    base = re.sub(r"^(IMG|VID|DSC|WhatsApp)[-_ ]*", "", base, flags=re.I)
+    base = re.sub(r"^(IMG|VID|VIDEO|DSC|WhatsApp)[-_ ]*", "", base, flags=re.I)
     base = re.sub(r"[_-]+", " ", base).strip()
     base = re.sub(r"\s+", " ", base)
     return base.capitalize() if base else Path(nombre).stem
 
 
 def fecha_del_nombre(nombre, respaldo):
-    """Fecha del nombre del archivo (WhatsApp no guarda metadatos)."""
-    m = re.search(r"(\d{4})(\d{2})(\d{2})(?:[_ .-]?(\d{2})(\d{2})(\d{2})?)?", nombre)
+    """Fecha del nombre del archivo (WhatsApp/cámara no siempre guardan metadatos)."""
+    m = RE_FECHA.search(nombre)
     if m:
         try:
             if m.group(4):
@@ -200,6 +205,14 @@ def main():
     manifiesto = (RAIZ / args.manifiesto).resolve()
     etiquetas = [t.strip() for t in args.tags.split(",") if t.strip()]
 
+    # Títulos ya personalizados en el manifiesto: no se pisan al reprocesar.
+    previos = {}
+    if manifiesto.exists():
+        try:
+            previos = {f.get("id"): f for f in json.loads(manifiesto.read_text(encoding="utf-8")).get("fotos", [])}
+        except Exception:
+            previos = {}
+
     archivos = sorted(p for p in origen.rglob("*")
                       if p.is_file() and p.suffix.lower() in (EXT_IMG | EXT_VID))
     if not archivos:
@@ -217,7 +230,9 @@ def main():
         clave = str(ruta.resolve())
         estampa = [ruta.stat().st_size, int(ruta.stat().st_mtime)]
         if not args.forzar and cache.get(clave) == estampa and cache.get("e" + clave):
-            info = cache["e" + clave]
+            info = dict(cache["e" + clave])
+            if info["id"] in previos and previos[info["id"]].get("titulo"):
+                info["titulo"] = previos[info["id"]]["titulo"]
             if info["id"] not in ids_vistos:
                 entradas.append(info)
                 ids_vistos.add(info["id"])
@@ -295,6 +310,8 @@ def main():
             print("+ %-40s -> %s  (%.1f s)" % (ruta.name, info["url"], info["duracion"]))
 
         entradas.append(info)
+        if id_foto in previos and previos[id_foto].get("titulo") and not args.forzar:
+            info["titulo"] = previos[id_foto]["titulo"]
         cache[clave] = estampa
         cache["e" + clave] = info
 

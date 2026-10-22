@@ -856,15 +856,19 @@
       });
     });
 
-    // galería
-    $('#galeria').addEventListener('click', function (e) {
-      var c = e.target.closest('.card');
-      if (c) abrirLightbox(c.dataset.id);
-    });
-    $('#galeria').addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      var c = e.target.closest('.card');
-      if (c) { e.preventDefault(); abrirLightbox(c.dataset.id); }
+    // galería + fila de vídeos destacados
+    ['#galeria', '#videosDestacados'].forEach(function (sel) {
+      var cont = $(sel);
+      if (!cont) return;
+      cont.addEventListener('click', function (e) {
+        var c = e.target.closest('.card');
+        if (c) abrirLightbox(c.dataset.id);
+      });
+      cont.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var c = e.target.closest('.card');
+        if (c) { e.preventDefault(); abrirLightbox(c.dataset.id); }
+      });
     });
 
     // lightbox
