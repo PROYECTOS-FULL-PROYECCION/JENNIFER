@@ -1,0 +1,11 @@
+﻿name: t6 if-inputs
+on:
+  push:
+    branches: [main]
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
+      - if: ${{ inputs.purgar_bucket != false }}
+        run: echo purga
